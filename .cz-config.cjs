@@ -16,7 +16,7 @@ module.exports = {
 		{ value: "test", name: "test: 添加、修改测试用例" },
 		{
 			value: "build",
-			name: "build: 构建流程、外部依赖变更（如升级 npm 包、修改 webpack 配置等）"
+			name: "build: 构建流程、外部依赖变更（如升级 npm 包、修改 vite 配置等）"
 		},
 		{ value: "ci", name: "ci: 修改 CI 配置、脚本" },
 		{
