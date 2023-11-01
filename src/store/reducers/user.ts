@@ -1,9 +1,9 @@
 import { Reducer } from "redux";
 import { IAction } from "../types";
-import { ActionTypeEnums } from "../constant/user";
+import { ActionTypeEnums, IUserInfo } from "../constant/user";
 
 export interface IUserState {
-	userInfo: any /** 用户信息类型后期需改 */;
+	userInfo: IUserInfo | null;
 }
 
 /** 初始化状态 */
@@ -11,9 +11,9 @@ const userState: IUserState = {
 	userInfo: null
 };
 
-const userReducer: Reducer<IUserState, IAction<ActionTypeEnums, any>> = (
+const userReducer: Reducer<IUserState, IAction<ActionTypeEnums, IUserInfo>> = (
 	preState = userState,
-	action: IAction<ActionTypeEnums, any>
+	action: IAction<ActionTypeEnums, IUserInfo>
 ) => {
 	const { type, payload } = action;
 	switch (type) {

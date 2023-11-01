@@ -1,7 +1,7 @@
-import { IAction } from "../types";
-import { ActionTypeEnums } from "../constant/user";
+import { IActionFn } from "../types";
+import { ActionTypeEnums, IUserInfo } from "../constant/user";
 
-export const setUserInfo: (userInfo: any) => IAction<ActionTypeEnums, any> = (userInfo: any) => ({
+export const setUserInfo: IActionFn<IUserInfo, ActionTypeEnums> = userInfo => ({
 	type: ActionTypeEnums.SET_USERINFO,
 	payload: userInfo
 });
