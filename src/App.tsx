@@ -1,7 +1,8 @@
-// import { useRoutes } from "react-router-dom";
 import "./App.less";
-import Login from "@/views/login";
+// import { useRoutes } from "react-router-dom";
+import Layout from "@/layout";
 import usePermissionRoutes from "@/hooks/usePermissionRoutes";
+// import Login from "@/views/login";
 
 function App() {
 	const { routes } = usePermissionRoutes();
@@ -11,7 +12,7 @@ function App() {
 	// 根据路由表生成对应的路由规则
 	// const element = useRoutes(routes);
 	// return <div>{element}</div>;
-	return <Login></Login>;
+	return <Layout></Layout>;
 }
 
 export default App;

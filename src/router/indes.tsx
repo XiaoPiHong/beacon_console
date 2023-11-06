@@ -8,7 +8,7 @@ export interface IRoute {
 }
 
 // 快速导入工具函数
-const lazyLoad = (moduleName: string) => {
+export const lazyLoad = (moduleName: string) => {
 	const Module = lazy(() => import(`@/views/${moduleName}`));
 	return <Module />;
 };

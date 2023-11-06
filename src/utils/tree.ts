@@ -35,3 +35,27 @@ export const transformTree = (parentId: string | number | null, list: any[], opt
 
 	return handleFn(parentId, list);
 };
+
+interface IMapTreeOption {
+	formatNode?: (node: any, parentNode: any) => any;
+	childrenKey?: string;
+}
+
+/** 递归遍历树，返回新结构树
+ * @param tree 树数据
+ * @param option 选项配置
+ * @param parentNode 父节点（默认为null）
+ */
+export const mapTree = (tree: any[], option: IMapTreeOption, parentNode = null) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { childrenKey = "children", formatNode = (node: any, pNode = parentNode) => node } = option;
+
+	return tree.map(node => {
+		const children = node[childrenKey];
+		if (children) {
+			const parentNode = { ...node };
+			node.children = mapTree(children, option, parentNode);
+		}
+		return formatNode(node, parentNode);
+	});
+};
