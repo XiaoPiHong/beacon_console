@@ -1,5 +1,6 @@
-import { lazy } from "react";
-// import { Navigate } from "react-router-dom";
+import { lazy, ComponentType } from "react";
+import { Navigate } from "react-router-dom";
+import Layout from "@/layout";
 
 export interface IRoute {
 	path: string;
@@ -7,17 +8,14 @@ export interface IRoute {
 	children?: IRoute[];
 }
 
-// 快速导入工具函数
-export const lazyLoad = (moduleName: string) => {
-	const Module = lazy(() => import(`@/views/${moduleName}`));
-	return <Module />;
-};
+// /**/ 表示二级目录 一般二级目录就够了  不够在加即可
+const modules = import.meta.glob("../views/**/*.tsx");
 
-// 路由鉴权跟组件
-// const Appraisal = ({ children }: any) => {
-// 	const token = localStorage.getItem("token");
-// 	return token ? children : <Navigate to="/login" />;
-// };
+// 快速导入工具函数
+export const lazyLoad = (moduleName: string, props?: { type: number }) => {
+	const Module = lazy(modules[`../views/${moduleName}/index.tsx`] as () => Promise<{ default: ComponentType<any> }>);
+	return <Module {...props} />;
+};
 
 // 白名单路由表
 export const whiteRoutes: Array<IRoute> = [
@@ -29,16 +27,28 @@ export const whiteRoutes: Array<IRoute> = [
 
 // 基本路由表
 export const baseRoutes: Array<IRoute> = [
-	// {
-	// 	path: "/",
-	// 	element: <Navigate to="/home" />
-	// },
-	// {
-	// 	path: "/home",
-	// 	element: lazyLoad("home")
-	// },
-	// {
-	// 	path: "*",
-	// 	element: lazyLoad("error")
-	// }
+	{
+		path: "/",
+		element: <Navigate to="/home" />
+	},
+	{
+		path: "/home",
+		element: <Layout />,
+		children: [
+			{
+				path: "",
+				element: lazyLoad("home")
+			}
+		]
+	},
+	{
+		path: "*",
+		element: <Layout />,
+		children: [
+			{
+				path: "*",
+				element: lazyLoad("error", { type: 404 })
+			}
+		]
+	}
 ];

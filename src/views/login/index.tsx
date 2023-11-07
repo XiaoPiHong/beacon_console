@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { setUserInfo, TUserActionFn, login } from "@/store/actions/user";
 import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 interface ILoginProps {
 	user: IStoreState["user"];
@@ -10,6 +11,8 @@ interface ILoginProps {
 }
 
 function Login(props: ILoginProps) {
+	const navigate = useNavigate();
+
 	// const onClickSetUserInfo = () => {
 	// 	props.setUserInfo({ name: "用户名", password: "xxx" });
 	// };
@@ -17,11 +20,16 @@ function Login(props: ILoginProps) {
 		props.setUserInfo(null);
 	};
 
+	const test = () => {
+		navigate("/system/role");
+	};
+
 	return (
 		<div>
 			<p>用户名：{props.user.userInfo?.name}</p>
 			<p>用户名密码：{props.user.userInfo?.password}</p>
 			<Button onClick={props.login}>设置用户信息</Button>
+			<Button onClick={test}>测试跳转</Button>
 			<Button onClick={onClickClearUserInfo}>清除用户信息</Button>
 		</div>
 	);
