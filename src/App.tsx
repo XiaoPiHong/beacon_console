@@ -1,8 +1,8 @@
 import "./App.less";
-// import { useRoutes } from "react-router-dom";
-import Layout from "@/layout";
+import { useRoutes } from "react-router-dom";
+// import Layout from "@/layout";
 import usePermissionRoutes from "@/hooks/usePermissionRoutes";
-// import Login from "@/views/login";
+import Login from "@/views/login";
 
 function App() {
 	const { routes } = usePermissionRoutes();
@@ -10,9 +10,14 @@ function App() {
 	console.log(routes);
 
 	// 根据路由表生成对应的路由规则
-	// const element = useRoutes(routes);
-	// return <div>{element}</div>;
-	return <Layout></Layout>;
+	const element = useRoutes(routes);
+	return (
+		<div>
+			{/* <Layout></Layout> */}
+			<Login></Login>
+			<>{element}</>
+		</div>
+	);
 }
 
 export default App;

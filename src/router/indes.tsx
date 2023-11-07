@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 
 export interface IRoute {
 	path: string;
@@ -29,12 +29,16 @@ export const whiteRoutes: Array<IRoute> = [
 
 // 基本路由表
 export const baseRoutes: Array<IRoute> = [
-	{
-		path: "/",
-		element: <Navigate to="/home" />
-	},
-	{
-		path: "*",
-		element: lazyLoad("error")
-	}
+	// {
+	// 	path: "/",
+	// 	element: <Navigate to="/home" />
+	// },
+	// {
+	// 	path: "/home",
+	// 	element: lazyLoad("home")
+	// },
+	// {
+	// 	path: "*",
+	// 	element: lazyLoad("error")
+	// }
 ];

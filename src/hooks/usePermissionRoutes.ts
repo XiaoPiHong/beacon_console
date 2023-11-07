@@ -34,6 +34,7 @@ export default function () {
 				const parentPath = parentNode ? parentNode.path : "";
 				const path = `${parentPath}${node.path}`;
 				console.log(path);
+				console.log(lazyLoad(path.replace(/^\//, "").replace(/\/:[^/]+/g, "")));
 				return {
 					path,
 					/**
@@ -47,6 +48,7 @@ export default function () {
 			}
 		});
 		setRoutes(newRoutes);
+		console.log(newRoutes);
 	}, [permission]);
 
 	return {
