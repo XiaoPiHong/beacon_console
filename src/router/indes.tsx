@@ -1,6 +1,7 @@
-import { lazy, ComponentType, Suspense } from "react";
+import { lazy, Suspense, ComponentType } from "react";
 import { Navigate } from "react-router-dom";
 import Layout from "@/layout";
+import { PageAppraisal } from "@/hooks/usePermission";
 
 export interface IRoute {
 	path: string;
@@ -23,12 +24,18 @@ export const lazyLoad = (moduleName: string, props?: { type: number }) => {
 };
 
 // 路由鉴权组件
-export const Appraisal = ({ children }: { children: JSX.Element }) => {
+export const RouteAppraisal = ({ children }: { children: JSX.Element }) => {
 	const token = localStorage.getItem("token");
-	return token ? children : <Navigate to="/login" />;
+	return token ? <PageAppraisal>{children}</PageAppraisal> : <Navigate to="/login" />;
 };
 
-// 白名单路由表
+/**
+ * 白名单路由注意点：
+ * 1、白名单路由需不需要鉴权根据业务需求来定，需要则包裹在Appraisal组件中
+ * 2、默认白名单中的路由都是无需页面鉴权的
+ *
+ */
+// 白名单路由
 export const whiteRoutes: Array<IRoute> = [
 	{
 		path: "/login",
@@ -58,7 +65,7 @@ export const baseRoutes: Array<IRoute> = [
 		children: [
 			{
 				path: "",
-				element: <Appraisal>{lazyLoad("home")}</Appraisal>
+				element: <RouteAppraisal>{lazyLoad("home")}</RouteAppraisal>
 			}
 		]
 	},
@@ -68,7 +75,7 @@ export const baseRoutes: Array<IRoute> = [
 		children: [
 			{
 				path: "*",
-				element: <Appraisal>{lazyLoad("error", { type: 404 })}</Appraisal>
+				element: <RouteAppraisal>{lazyLoad("error", { type: 404 })}</RouteAppraisal>
 			}
 		]
 	}

@@ -2,7 +2,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { IPermission } from "@/store/constant/user";
 import { useEffect, useState } from "react";
-import { whiteRoutes, baseRoutes, lazyLoad, Appraisal, IRoute } from "@/router/indes";
+import { whiteRoutes, baseRoutes, lazyLoad, RouteAppraisal, IRoute } from "@/router/indes";
 import { transformTree } from "@/utils/tree";
 import Layout from "@/layout";
 import { cloneDeep } from "lodash-es";
@@ -47,7 +47,7 @@ const getRouteElement = (parentNode: TPermissionTreeNode | null, node: TPermissi
 		case true: {
 			/** 返回自身模块 */
 			const path = node.url;
-			return <Appraisal>{lazyLoad(formatterUrl(path))}</Appraisal>;
+			return <RouteAppraisal>{lazyLoad(formatterUrl(path))}</RouteAppraisal>;
 		}
 		case false: {
 			/** 返回布局模块 */
@@ -69,7 +69,7 @@ const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermiss
 				return [
 					{
 						path: "",
-						element: <Appraisal>{lazyLoad(formatterUrl(node.permissionCode))}</Appraisal>
+						element: <RouteAppraisal>{lazyLoad(formatterUrl(node.permissionCode))}</RouteAppraisal>
 					}
 				];
 			}
