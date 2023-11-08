@@ -22,6 +22,12 @@ export const lazyLoad = (moduleName: string, props?: { type: number }) => {
 	);
 };
 
+// 路由鉴权组件
+export const Appraisal = ({ children }: { children: JSX.Element }) => {
+	const token = localStorage.getItem("token");
+	return token ? children : <Navigate to="/login" />;
+};
+
 // 白名单路由表
 export const whiteRoutes: Array<IRoute> = [
 	{
@@ -52,7 +58,7 @@ export const baseRoutes: Array<IRoute> = [
 		children: [
 			{
 				path: "",
-				element: lazyLoad("home")
+				element: <Appraisal>{lazyLoad("home")}</Appraisal>
 			}
 		]
 	},
@@ -62,7 +68,7 @@ export const baseRoutes: Array<IRoute> = [
 		children: [
 			{
 				path: "*",
-				element: lazyLoad("error", { type: 404 })
+				element: <Appraisal>{lazyLoad("error", { type: 404 })}</Appraisal>
 			}
 		]
 	}

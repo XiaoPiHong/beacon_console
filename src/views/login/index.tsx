@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { IStoreState } from "@/store/types";
-import { setUserInfo, TUserActionFn, login } from "@/store/actions/user";
+import { setUserInfo, TUserActionFn, login, loginOut } from "@/store/actions/user";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,7 @@ interface ILoginProps {
 	user: IStoreState["user"];
 	setUserInfo: TUserActionFn;
 	login: (args: any) => void;
+	loginOut: (args: any) => void;
 }
 
 function Login(props: ILoginProps) {
@@ -16,9 +17,6 @@ function Login(props: ILoginProps) {
 	// const onClickSetUserInfo = () => {
 	// 	props.setUserInfo({ name: "用户名", password: "xxx" });
 	// };
-	const onClickClearUserInfo = () => {
-		props.setUserInfo(null);
-	};
 
 	const test = () => {
 		navigate("/system/role");
@@ -35,7 +33,7 @@ function Login(props: ILoginProps) {
 			<Button onClick={props.login}>设置用户信息</Button>
 			<Button onClick={test}>测试角色</Button>
 			<Button onClick={test1}>测试部门</Button>
-			<Button onClick={onClickClearUserInfo}>清除用户信息</Button>
+			<Button onClick={props.loginOut}>清除用户信息</Button>
 		</div>
 	);
 }
@@ -45,5 +43,5 @@ export default connect(
 	(state: IStoreState) => ({
 		user: state.user
 	}),
-	{ setUserInfo, login }
+	{ setUserInfo, login, loginOut }
 )(Login);
