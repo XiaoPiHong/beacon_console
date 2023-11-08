@@ -24,12 +24,17 @@ function Login(props: ILoginProps) {
 		navigate("/system/role");
 	};
 
+	const test1 = () => {
+		navigate("/system/department");
+	};
+
 	return (
 		<div>
 			<p>用户名：{props.user.userInfo?.name}</p>
 			<p>用户名密码：{props.user.userInfo?.password}</p>
 			<Button onClick={props.login}>设置用户信息</Button>
-			<Button onClick={test}>测试跳转</Button>
+			<Button onClick={test}>测试角色</Button>
+			<Button onClick={test1}>测试部门</Button>
 			<Button onClick={onClickClearUserInfo}>清除用户信息</Button>
 		</div>
 	);

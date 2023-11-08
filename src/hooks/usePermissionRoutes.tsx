@@ -1,13 +1,15 @@
 import { shallowEqual, useSelector } from "react-redux";
 import { IStoreState } from "@/store/types";
+import { IPermission } from "@/store/constant/user";
 import { useEffect, useState } from "react";
 import { whiteRoutes, baseRoutes, lazyLoad, IRoute } from "@/router/indes";
-import { transformTree, mapTree } from "@/utils/tree";
+import { transformTree } from "@/utils/tree";
 import Layout from "@/layout";
 import { cloneDeep } from "lodash-es";
 
-type TPermissionNode = IRoute & {
-	url: string;
+type TPermissionTreeNode = IPermission & {
+	url: string; // 完整路径
+	children: TPermissionTreeNode[]; // 子级
 };
 
 /**
@@ -22,53 +24,70 @@ const formatterUrl = (path: string) => {
 };
 
 /** 获取路由表路径 */
-const getRoutePath = (parentNode: TPermissionNode | null, node: TPermissionNode) => {
+const getRoutePath = (parentNode: TPermissionTreeNode | null, node: TPermissionTreeNode) => {
 	const flag = !!parentNode;
 	switch (flag) {
 		/** 有父级 */
 		case true: {
-			return node.path.replace(/^\//, "");
+			/** 返回 role */
+			return node.permissionCode.replace(/^\//, "");
 		}
 		/** 无父级 */
 		case false: {
-			return node.path;
+			/** 返回 /system */
+			return node.permissionCode;
 		}
 	}
 };
 
 /** 获取路由表组件 */
-const getRouteElement = (parentNode: TPermissionNode | null, node: TPermissionNode) => {
+const getRouteElement = (parentNode: TPermissionTreeNode | null, node: TPermissionTreeNode) => {
 	const flag = !!parentNode;
 	switch (flag) {
 		case true: {
+			/** 返回自身模块 */
 			const path = node.url;
 			return lazyLoad(formatterUrl(path));
 		}
 		case false: {
+			/** 返回布局模块 */
 			return <Layout />;
 		}
 	}
 };
 
 /** 获取路由表子级 */
-const getRouteChildren = (parentNode: TPermissionNode | null, node: TPermissionNode) => {
+const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermissionTreeNode) => {
 	const flag = !!parentNode;
 	switch (flag) {
 		case true: {
-			return node.children;
+			return initRoutes(node.children, node);
 		}
 		case false: {
+			/** 无子级 & 无父级 为其增添一个空路径子路由 */
 			if (node.children!.length === 0) {
 				return [
 					{
 						path: "",
-						element: lazyLoad(formatterUrl(node.path))
+						element: lazyLoad(formatterUrl(node.permissionCode))
 					}
 				];
 			}
-			return node.children;
+			return initRoutes(node.children, node);
 		}
 	}
+};
+
+/** 递归树生成权限路由表 */
+const initRoutes = (list: TPermissionTreeNode[], parentNode: any = null): IRoute[] => {
+	return list.map((node: TPermissionTreeNode) => {
+		node.url = (parentNode?.url || "") + node.permissionCode;
+		return {
+			path: getRoutePath(parentNode, node),
+			element: getRouteElement(parentNode, node),
+			children: getRouteChildren(parentNode, node)
+		};
+	});
 };
 
 export default function () {
@@ -80,42 +99,25 @@ export default function () {
 
 	useEffect(() => {
 		/** 生成树 */
-		const permissionTree: TPermissionNode[] = transformTree(
+		const permissionTree: TPermissionTreeNode[] = transformTree(
 			null,
 			permission.filter(per => per.type === "ROUTE"),
 			{
 				idKey: "permissionId",
 				parentIdKey: "parentPermissionId",
-				formatNode: ({ id, data, children }) => ({
-					id,
-					children: children.map((item: IRoute) => {
-						return {
-							...item,
-							url: data.permissionCode + item.path // url是完整路径
-						};
-					}),
-					label: data.permissionName,
-					path: data.permissionCode,
-					url: data.permissionCode
+				formatNode: ({ data, children }) => ({
+					...data,
+					children
 				})
 			}
 		);
-		console.log(permissionTree);
 		/** 递归树生成权限路由表 */
-		const newRoutes: IRoute[] = mapTree(cloneDeep(permissionTree), {
-			formatNode: (node, parentNode) => {
-				return {
-					path: getRoutePath(parentNode, node),
-					element: getRouteElement(parentNode, node),
-					children: getRouteChildren(parentNode, node)
-				};
-			}
-		});
+		const newRoutes = initRoutes(cloneDeep(permissionTree));
 		setRoutes([...whiteRoutes, ...newRoutes, ...baseRoutes]);
-		console.log(newRoutes);
 	}, [permission]);
 
 	return {
-		routes
+		routes,
+		setRoutes
 	};
 }

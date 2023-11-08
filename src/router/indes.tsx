@@ -1,4 +1,4 @@
-import { lazy, ComponentType } from "react";
+import { lazy, ComponentType, Suspense } from "react";
 import { Navigate } from "react-router-dom";
 import Layout from "@/layout";
 
@@ -8,13 +8,18 @@ export interface IRoute {
 	children?: IRoute[];
 }
 
-// /**/ 表示二级目录 一般二级目录就够了  不够在加即可
+// /**/ 表示二级目录 一般二级目录就够了  不够再加即可
 const modules = import.meta.glob("../views/**/*.tsx");
 
 // 快速导入工具函数
 export const lazyLoad = (moduleName: string, props?: { type: number }) => {
 	const Module = lazy(modules[`../views/${moduleName}/index.tsx`] as () => Promise<{ default: ComponentType<any> }>);
-	return <Module {...props} />;
+	return (
+		/** 如果在懒加载组件尚未加载完成时尝试访问该组件会报错，使用Suspense处理 */
+		<Suspense>
+			<Module {...props} />;
+		</Suspense>
+	);
 };
 
 // 白名单路由表
@@ -22,10 +27,20 @@ export const whiteRoutes: Array<IRoute> = [
 	{
 		path: "/login",
 		element: lazyLoad("login")
+	},
+	{
+		path: "/system",
+		element: <Layout />,
+		children: [
+			{
+				path: "department",
+				element: lazyLoad("system/department")
+			}
+		]
 	}
 ];
 
-// 基本路由表
+// 基本路由表（基本路由表不可修改）
 export const baseRoutes: Array<IRoute> = [
 	{
 		path: "/",
