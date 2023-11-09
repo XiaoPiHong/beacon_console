@@ -26,7 +26,7 @@ export const lazyLoad = (moduleName: string, props?: { type: number }) => {
 // 路由鉴权组件
 export const RouteAppraisal = ({ children }: { children: JSX.Element }) => {
 	const token = localStorage.getItem("token");
-	return token ? <PageAppraisal>{children}</PageAppraisal> : <Navigate to="/login" />;
+	return token ? children : <Navigate to="/login" />;
 };
 
 /**
@@ -65,7 +65,11 @@ export const baseRoutes: Array<IRoute> = [
 		children: [
 			{
 				path: "",
-				element: <RouteAppraisal>{lazyLoad("home")}</RouteAppraisal>
+				element: (
+					<RouteAppraisal>
+						<PageAppraisal>{lazyLoad("home")}</PageAppraisal>
+					</RouteAppraisal>
+				)
 			}
 		]
 	},

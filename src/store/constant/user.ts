@@ -1,4 +1,5 @@
 export const enum ActionTypeEnums {
+	LOGIN = "LOGIN",
 	SET_USERINFO = "SET_USERINFO",
 	SET_PERMISSION = "SET_PERMISSION"
 }

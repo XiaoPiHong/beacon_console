@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 interface ILoginProps {
 	user: IStoreState["user"];
 	setUserInfo: TUserActionFn;
-	login: (args: any) => void;
-	loginOut: (args: any) => void;
+	login: (args?: any) => Promise<any>;
+	loginOut: (args?: any) => Promise<any>;
 }
 
 function Login(props: ILoginProps) {
@@ -17,6 +17,12 @@ function Login(props: ILoginProps) {
 	// const onClickSetUserInfo = () => {
 	// 	props.setUserInfo({ name: "用户名", password: "xxx" });
 	// };
+
+	const login = async () => {
+		await props.login();
+
+		console.log("同步成功");
+	};
 
 	const test = () => {
 		navigate("/system/role");
@@ -30,7 +36,7 @@ function Login(props: ILoginProps) {
 		<div>
 			<p>用户名：{props.user.userInfo?.name}</p>
 			<p>用户名密码：{props.user.userInfo?.password}</p>
-			<Button onClick={props.login}>设置用户信息</Button>
+			<Button onClick={login}>设置用户信息</Button>
 			<Button onClick={test}>测试角色</Button>
 			<Button onClick={test1}>测试部门</Button>
 			<Button onClick={props.loginOut}>清除用户信息</Button>
@@ -43,5 +49,5 @@ export default connect(
 	(state: IStoreState) => ({
 		user: state.user
 	}),
-	{ setUserInfo, login, loginOut }
+	{ login, setUserInfo, loginOut }
 )(Login);

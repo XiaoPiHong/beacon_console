@@ -6,6 +6,7 @@ import { whiteRoutes, baseRoutes, lazyLoad, RouteAppraisal, IRoute } from "@/rou
 import { transformTree } from "@/utils/tree";
 import Layout from "@/layout";
 import { cloneDeep } from "lodash-es";
+import { PageAppraisal } from "@/hooks/usePermission";
 
 type TPermissionTreeNode = IPermission & {
 	url: string; // 完整路径
@@ -47,7 +48,11 @@ const getRouteElement = (parentNode: TPermissionTreeNode | null, node: TPermissi
 		case true: {
 			/** 返回自身模块 */
 			const path = node.url;
-			return <RouteAppraisal>{lazyLoad(formatterUrl(path))}</RouteAppraisal>;
+			return (
+				<RouteAppraisal>
+					<PageAppraisal>{lazyLoad(formatterUrl(path))}</PageAppraisal>
+				</RouteAppraisal>
+			);
 		}
 		case false: {
 			/** 返回布局模块 */
@@ -69,7 +74,11 @@ const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermiss
 				return [
 					{
 						path: "",
-						element: <RouteAppraisal>{lazyLoad(formatterUrl(node.permissionCode))}</RouteAppraisal>
+						element: (
+							<RouteAppraisal>
+								<PageAppraisal>{lazyLoad(formatterUrl(node.permissionCode))}</PageAppraisal>
+							</RouteAppraisal>
+						)
 					}
 				];
 			}

@@ -19,6 +19,8 @@ const userReducer: Reducer<IUserState, IAction<ActionTypeEnums, any>> = (
 ) => {
 	const { type, payload } = action;
 	switch (type) {
+		case ActionTypeEnums.LOGIN:
+			return { ...preState, ...payload };
 		case ActionTypeEnums.SET_USERINFO:
 			return { ...preState, userInfo: payload };
 		case ActionTypeEnums.SET_PERMISSION:
