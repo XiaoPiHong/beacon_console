@@ -105,5 +105,5 @@ export const getUserInfo = async () => {
 export const getPermission = async () => {
 	const p = await test();
 	console.log(p);
-	return { type: ActionTypeEnums.SET_USERINFO, payload: permission };
+	return { type: ActionTypeEnums.SET_PERMISSION, payload: permission };
 };

@@ -2,6 +2,10 @@ import { lazy, Suspense, ComponentType } from "react";
 import { Navigate } from "react-router-dom";
 import Layout from "@/layout";
 import { PageAppraisal } from "@/hooks/usePermission";
+import { useSelector, shallowEqual } from "react-redux";
+import { IStoreState } from "@/store/types";
+import { getUserInfo, getPermission } from "@/store/actions/user";
+import { useDispatch } from "react-redux";
 
 export interface IRoute {
 	path: string;
@@ -23,10 +27,33 @@ export const lazyLoad = (moduleName: string, props?: { type: number }) => {
 	);
 };
 
-// 路由鉴权组件
+/**
+ * 路由鉴权组件
+ */
 export const RouteAppraisal = ({ children }: { children: JSX.Element }) => {
 	const token = localStorage.getItem("token");
-	return token ? children : <Navigate to="/login" />;
+
+	const { userInfo } = useSelector((state: IStoreState) => ({ userInfo: state.user.userInfo }), shallowEqual);
+	const dispatch = useDispatch();
+
+	const Module = lazy(async () => {
+		if (token && !userInfo) {
+			const _u = await getUserInfo();
+			const _p = await getPermission();
+			dispatch(_u);
+			dispatch(_p);
+		}
+
+		return {
+			default: token ? () => children : () => <Navigate to="/login" />
+		};
+	});
+
+	return (
+		<Suspense>
+			<Module />
+		</Suspense>
+	);
 };
 
 /**
@@ -39,7 +66,7 @@ export const RouteAppraisal = ({ children }: { children: JSX.Element }) => {
 export const whiteRoutes: Array<IRoute> = [
 	{
 		path: "/login",
-		element: lazyLoad("login")
+		element: localStorage.getItem("token") ? <Navigate replace to="/home" /> : lazyLoad("login")
 	},
 	{
 		path: "/system",
