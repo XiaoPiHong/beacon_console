@@ -15,9 +15,10 @@ type TPermissionTreeNode = IPermission & {
 
 /**
  *
- * 格式化路径
- * /page/name 替换成 page/name
- * /page/name/:id/:name 替换成 page/name
+ * @description 格式化路径
+ * @param string path:需格式化的路径
+ * @example /page/name 替换成 page/name
+ * @example /page/name/:id/:name 替换成 page/name
  *
  * */
 const formatterUrl = (path: string) => {
@@ -50,7 +51,7 @@ const getRouteElement = (parentNode: TPermissionTreeNode | null, node: TPermissi
 			const path = node.url;
 			return (
 				<RouteAppraisal>
-					<PageAppraisal>{lazyLoad(formatterUrl(path))}</PageAppraisal>
+					<PageAppraisal permissionCode={node.permissionCode}>{lazyLoad(formatterUrl(path))}</PageAppraisal>
 				</RouteAppraisal>
 			);
 		}
@@ -76,7 +77,7 @@ const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermiss
 						path: "",
 						element: (
 							<RouteAppraisal>
-								<PageAppraisal>{lazyLoad(formatterUrl(node.permissionCode))}</PageAppraisal>
+								<PageAppraisal permissionCode={node.permissionCode}>{lazyLoad(formatterUrl(node.permissionCode))}</PageAppraisal>
 							</RouteAppraisal>
 						)
 					}

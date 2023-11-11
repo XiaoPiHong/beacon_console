@@ -29,19 +29,19 @@ const permission: IPermission[] = [
 	{
 		permissionId: "2-1",
 		permissionName: "角色管理",
-		permissionCode: "/role",
+		permissionCode: "/role/:id/:name",
 		description: "string",
 		type: "ROUTE",
 		parentPermissionId: "2"
 	},
-	{
-		permissionId: "2-1-1",
-		permissionName: "查看",
-		permissionCode: "view",
-		description: "string",
-		type: "BUTTON",
-		parentPermissionId: "2-1"
-	},
+	// {
+	// 	permissionId: "2-1-1",
+	// 	permissionName: "查看",
+	// 	permissionCode: "view",
+	// 	description: "string",
+	// 	type: "BUTTON",
+	// 	parentPermissionId: "2-1"
+	// },
 	{
 		permissionId: "2-1-2",
 		permissionName: "编辑",

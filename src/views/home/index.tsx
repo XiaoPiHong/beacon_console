@@ -1,4 +1,4 @@
 function Home() {
-	return <div>主页</div>;
+	return <section>主页</section>;
 }
 export default Home;

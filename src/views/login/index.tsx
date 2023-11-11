@@ -25,11 +25,15 @@ function Login(props: ILoginProps) {
 	};
 
 	const test = () => {
-		navigate("/system/role");
+		navigate("/system/role/2/3");
 	};
 
 	const test1 = () => {
 		navigate("/system/department");
+	};
+
+	const test2 = () => {
+		navigate("/home");
 	};
 
 	return (
@@ -39,6 +43,7 @@ function Login(props: ILoginProps) {
 			<Button onClick={login}>设置用户信息</Button>
 			<Button onClick={test}>测试角色</Button>
 			<Button onClick={test1}>测试部门</Button>
+			<Button onClick={test2}>测试主页</Button>
 			<Button onClick={props.loginOut}>清除用户信息</Button>
 		</div>
 	);
