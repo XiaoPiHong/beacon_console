@@ -6,7 +6,7 @@ import { useSelector, shallowEqual } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { getUserInfo, getPermission } from "@/store/actions/user";
 import { useDispatch } from "react-redux";
-import { Spin } from "antd";
+import Loading from "@/components/loading";
 
 export interface IRoute {
 	path: string;
@@ -26,7 +26,7 @@ export const lazyLoad = (moduleName: string, props?: any) => {
 	const Module = lazy(modules[`../views/${moduleName}/index.tsx`] as () => Promise<{ default: ComponentType<any> }>);
 	return (
 		/** 如果在懒加载组件尚未加载完成时尝试访问该组件会报错，使用Suspense处理 */
-		<Suspense fallback={<Spin size="small"></Spin>}>
+		<Suspense fallback={<Loading />}>
 			<Module {...props} />;
 		</Suspense>
 	);
@@ -66,7 +66,7 @@ export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
 	});
 
 	return (
-		<Suspense fallback={<Spin size="small"></Spin>}>
+		<Suspense fallback={<Loading />}>
 			<Module />
 		</Suspense>
 	);
