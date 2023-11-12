@@ -122,12 +122,12 @@ function request(options: IRequestOptions) {
 		});
 }
 
-type IHttpCommonProps = {
+type THttpCommonProps = {
 	url: string;
 	headers?: IRequestOptions["headers"];
 };
 const http = {
-	get: ({ url, params, headers }: IHttpCommonProps & { params?: IRequestOptions["params"] }) => {
+	get: ({ url, params, headers }: THttpCommonProps & { params?: IRequestOptions["params"] }) => {
 		request({
 			url,
 			method: MethodEnum.GET,
@@ -135,7 +135,7 @@ const http = {
 			headers
 		});
 	},
-	head: ({ url, params, headers }: IHttpCommonProps & { params?: IRequestOptions["params"] }) => {
+	head: ({ url, params, headers }: THttpCommonProps & { params?: IRequestOptions["params"] }) => {
 		request({
 			url,
 			method: MethodEnum.HEAD,
@@ -143,7 +143,7 @@ const http = {
 			headers
 		});
 	},
-	put: ({ url, body, headers }: IHttpCommonProps & { body?: IRequestOptions["body"] }) => {
+	put: ({ url, body, headers }: THttpCommonProps & { body?: IRequestOptions["body"] }) => {
 		request({
 			url,
 			method: MethodEnum.PUT,
@@ -151,7 +151,7 @@ const http = {
 			headers
 		});
 	},
-	post: ({ url, body, headers }: IHttpCommonProps & { body?: IRequestOptions["body"] }) => {
+	post: ({ url, body, headers }: THttpCommonProps & { body?: IRequestOptions["body"] }) => {
 		request({
 			url,
 			method: MethodEnum.POST,
@@ -159,7 +159,7 @@ const http = {
 			headers
 		});
 	},
-	delete: ({ url, body, headers }: IHttpCommonProps & { body?: IRequestOptions["body"] }) => {
+	delete: ({ url, body, headers }: THttpCommonProps & { body?: IRequestOptions["body"] }) => {
 		request({
 			url,
 			method: MethodEnum.DELETE,
