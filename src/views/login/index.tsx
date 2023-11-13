@@ -1,50 +1,61 @@
 import { connect } from "react-redux";
 import { IStoreState } from "@/store/types";
-import { setUserInfo, TUserActionFn, login, loginOut } from "@/store/actions/user";
-import { Button } from "antd";
+import { login } from "@/store/actions/user";
+import style from "./index.module.less";
+import { Form, Input, Checkbox, Button } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 interface ILoginProps {
 	user: IStoreState["user"];
-	setUserInfo: TUserActionFn;
 	login: (args?: any) => Promise<any>;
-	loginOut: (args?: any) => Promise<any>;
 }
 
 function Login(props: ILoginProps) {
 	const navigate = useNavigate();
 
-	// const onClickSetUserInfo = () => {
-	// 	props.setUserInfo({ name: "用户名", password: "xxx" });
-	// };
-
-	const login = async () => {
-		await props.login();
-
-		console.log("同步成功");
+	const onFinish = (values: any) => {
+		console.log(values);
+		props.login().then(() => {
+			navigate("/home");
+		});
 	};
-
-	const test = () => {
-		navigate("/system/role/2/3");
-	};
-
-	const test1 = () => {
-		navigate("/system/department");
-	};
-
-	const test2 = () => {
-		navigate("/home");
-	};
-
 	return (
-		<div>
-			<p>用户名：{props.user.userInfo?.name}</p>
-			<p>用户名密码：{props.user.userInfo?.password}</p>
-			<Button onClick={login}>设置用户信息</Button>
-			<Button onClick={test}>测试角色</Button>
-			<Button onClick={test1}>测试部门</Button>
-			<Button onClick={test2}>测试主页</Button>
-			<Button onClick={props.loginOut}>清除用户信息</Button>
+		<div className={style["login"]}>
+			<div className={style["login-container"]}>
+				<div className={style["login-container-header"]}>
+					<div className={style["login-container-header__logo"]}></div>
+					<h1>项目管理系统</h1>
+					<p>项目无忧，系统成就</p>
+					<h2>登录</h2>
+				</div>
+				<div className={style["login-container-section"]}>
+					<div className={style["login-container-section__form"]}>
+						<Form name="basic" wrapperCol={{ span: 24 }} onFinish={onFinish} autoComplete="off">
+							<Form.Item name="username" rules={[{ required: true, message: "请输入用户名" }]}>
+								<Input prefix={<UserOutlined />} placeholder="用户名" />
+							</Form.Item>
+
+							<Form.Item name="password" rules={[{ required: true, message: "请输入密码" }]}>
+								<Input.Password prefix={<LockOutlined />} placeholder="密码" />
+							</Form.Item>
+
+							<Form.Item name="remember" valuePropName="checked">
+								<div style={{ display: "flex", justifyContent: "space-between" }}>
+									<Checkbox>记住账号</Checkbox>
+									<a>忘记密码</a>
+								</div>
+							</Form.Item>
+
+							<Form.Item>
+								<Button style={{ width: "100%" }} type="primary" htmlType="submit">
+									登录
+								</Button>
+							</Form.Item>
+						</Form>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }
@@ -54,5 +65,5 @@ export default connect(
 	(state: IStoreState) => ({
 		user: state.user
 	}),
-	{ login, setUserInfo, loginOut }
+	{ login }
 )(Login);
