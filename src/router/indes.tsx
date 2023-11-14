@@ -84,6 +84,10 @@ export const whiteRoutes: Array<IRoute> = [
 		element: localStorage.getItem("token") ? <Navigate replace to="/home" /> : lazyLoad("login")
 	},
 	{
+		path: "/register",
+		element: lazyLoad("register")
+	},
+	{
 		path: "/system",
 		element: <Layout />,
 		children: [
