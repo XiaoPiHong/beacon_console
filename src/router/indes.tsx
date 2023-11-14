@@ -1,6 +1,9 @@
 import { lazy, Suspense, ComponentType } from "react";
 import { Navigate } from "react-router-dom";
 import Layout from "@/layout";
+import Home from "@/views/home";
+import Login from "@/views/login";
+import Register from "@/views/register";
 import { PageAppraisal } from "@/hooks/usePermission";
 import { useSelector, shallowEqual } from "react-redux";
 import { IStoreState } from "@/store/types";
@@ -81,11 +84,11 @@ export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
 export const whiteRoutes: Array<IRoute> = [
 	{
 		path: "/login",
-		element: localStorage.getItem("token") ? <Navigate replace to="/home" /> : lazyLoad("login")
+		element: localStorage.getItem("token") ? <Navigate replace to="/home" /> : <Login />
 	},
 	{
 		path: "/register",
-		element: lazyLoad("register")
+		element: <Register />
 	},
 	{
 		path: "/system",
@@ -115,7 +118,9 @@ export const baseRoutes: Array<IRoute> = [
 				path: "",
 				element: (
 					<RouteAppraisal>
-						<PageAppraisal permissionCode="/home">{lazyLoad("home")}</PageAppraisal>
+						<PageAppraisal permissionCode="/home">
+							<Home />
+						</PageAppraisal>
 					</RouteAppraisal>
 				)
 			}
