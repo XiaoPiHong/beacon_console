@@ -27,7 +27,7 @@ export const lazyLoad = (moduleName: string, props?: any) => {
 	return (
 		/** 如果在懒加载组件尚未加载完成时尝试访问该组件会报错，使用Suspense处理 */
 		<Suspense fallback={<Loading />}>
-			<Module {...props} />;
+			<Module {...props} />
 		</Suspense>
 	);
 };

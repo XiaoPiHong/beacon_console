@@ -2,9 +2,10 @@ import { connect } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { login } from "@/store/actions/user";
 import style from "./index.module.less";
-import { Form, Input, Checkbox, Button } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Form } from "antd";
 import { useNavigate } from "react-router-dom";
+import { getLoginFormItem } from "./indexConfig";
+import { useState } from "react";
 
 interface ILoginProps {
 	user: IStoreState["user"];
@@ -14,12 +15,23 @@ interface ILoginProps {
 function Login(props: ILoginProps) {
 	const navigate = useNavigate();
 
+	const [loading, setLoading] = useState(false);
+
 	const onFinish = (values: any) => {
 		console.log(values);
-		props.login().then(() => {
-			navigate("/home");
-		});
+		setLoading(true);
+		props
+			.login()
+			.then(() => {
+				navigate("/home");
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	};
+
+	const formItems = getLoginFormItem({ loading });
+
 	return (
 		<div className={style["login"]}>
 			<div className={style["login-container"]}>
@@ -32,26 +44,10 @@ function Login(props: ILoginProps) {
 				<div className={style["login-container-section"]}>
 					<div className={style["login-container-section__form"]}>
 						<Form name="basic" wrapperCol={{ span: 24 }} onFinish={onFinish} autoComplete="off">
-							<Form.Item name="username" rules={[{ required: true, message: "请输入用户名" }]}>
-								<Input prefix={<UserOutlined />} placeholder="用户名" />
-							</Form.Item>
-
-							<Form.Item name="password" rules={[{ required: true, message: "请输入密码" }]}>
-								<Input.Password prefix={<LockOutlined />} placeholder="密码" />
-							</Form.Item>
-
-							<Form.Item name="remember" valuePropName="checked">
-								<div style={{ display: "flex", justifyContent: "space-between" }}>
-									<Checkbox>记住账号</Checkbox>
-									<a>忘记密码</a>
-								</div>
-							</Form.Item>
-
-							<Form.Item>
-								<Button style={{ width: "100%" }} type="primary" htmlType="submit">
-									登录
-								</Button>
-							</Form.Item>
+							<>{formItems.username}</>
+							<>{formItems.password}</>
+							<>{formItems.remember}</>
+							<>{formItems.submit}</>
 						</Form>
 					</div>
 				</div>
