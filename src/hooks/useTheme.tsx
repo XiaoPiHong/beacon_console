@@ -7,11 +7,17 @@ const rootStyles = getComputedStyle(document.documentElement);
 /** 驼峰转"-"拼接 */
 const camelToKebab = (str: string) => str.replace(/([A-Z])/g, "-$1").toLowerCase();
 
+/** 基本配置 */
+const baseThemeToken = {
+	borderRadius: 0
+};
+
 /** 默认主题 */
 const defaultTheme = {
 	theme: {
 		token: {
-			colorPrimary: cloneDeep(rootStyles.getPropertyValue("--color-primary"))
+			...baseThemeToken,
+			colorPrimary: rootStyles.getPropertyValue("--color-primary")
 		}
 	}
 };
