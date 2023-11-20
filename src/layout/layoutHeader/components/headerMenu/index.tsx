@@ -3,6 +3,7 @@ import { IStoreState } from "@/store/types";
 import { transformTree } from "@/utils/tree";
 import { useEffect, useState } from "react";
 import { Menu } from "antd";
+import { useTheme } from "@/hooks/useTheme";
 
 interface IMenuProps {
 	permission: IStoreState["user"]["permission"];
@@ -16,6 +17,9 @@ interface IHeaderMenu {
 
 function HeaderMenu({ permission }: IMenuProps) {
 	const [menus, setMenus] = useState<Array<IHeaderMenu>>([]);
+	const {
+		theme: { token }
+	} = useTheme();
 
 	const onClick = (e: any) => {
 		console.log(e);
@@ -39,7 +43,7 @@ function HeaderMenu({ permission }: IMenuProps) {
 		);
 	}, [permission]);
 
-	return <Menu style={{ backgroundColor: "#438eb9" }} onClick={onClick} mode="horizontal" items={menus} />;
+	return <Menu style={{ backgroundColor: token.colorPrimary }} onClick={onClick} mode="horizontal" items={menus} />;
 }
 
 export default connect((state: IStoreState) => ({

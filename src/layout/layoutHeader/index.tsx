@@ -8,7 +8,7 @@ function LayoutHeader() {
 			<div className={style["header-container-menu"]}>
 				<HeaderMenu />
 			</div>
-			<div className={style["header-container-operate"]}></div>
+			<div className={style["header-container-setting"]}></div>
 		</div>
 	);
 }

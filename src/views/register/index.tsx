@@ -20,24 +20,22 @@ function Register() {
 
 	return (
 		<div className={style["register"]}>
-			<div className={style["register-container"]}>
-				<div className={style["register-container-header"]}>
-					<div className={style["register-container-header__logo"]}></div>
+			<div className={style["register__body"]}>
+				<div className={style["register__header"]}>
+					<div className={style["register__logo"]}></div>
 					<h1>项目管理系统</h1>
 					<p>项目无忧，系统成就</p>
 					<h2>注册</h2>
 				</div>
-				<div className={style["register-container-section"]}>
-					<div className={style["register-container-section__form"]}>
-						<Form name="basic" wrapperCol={{ span: 24 }} onFinish={onFinish} autoComplete="off">
-							<>{formItems.username}</>
-							<>{formItems.password}</>
-							<>{formItems.phone}</>
-							<>{formItems.email}</>
-							<>{formItems.realName}</>
-							<>{formItems.submit}</>
-						</Form>
-					</div>
+				<div className={style["register__content"]}>
+					<Form name="basic" wrapperCol={{ span: 24 }} onFinish={onFinish} autoComplete="off">
+						<>{formItems.username}</>
+						<>{formItems.password}</>
+						<>{formItems.phone}</>
+						<>{formItems.email}</>
+						<>{formItems.realName}</>
+						<>{formItems.submit}</>
+					</Form>
 				</div>
 			</div>
 		</div>
