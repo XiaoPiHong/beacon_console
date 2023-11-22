@@ -37,7 +37,18 @@ function Login(props: ILoginProps) {
 
 	const test = () => {
 		updateTheme({
-			colorPrimary: "black"
+			systemTheme: {
+				theme: {
+					token: {
+						colorPrimary: "red"
+					}
+				}
+			},
+			systemComponentsTheme: {
+				Menu: {
+					itemBg: "green"
+				}
+			}
 		});
 	};
 
