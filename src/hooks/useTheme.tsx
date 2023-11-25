@@ -15,37 +15,20 @@ const baseSystemThemeToken = {
 
 /** 默认主题 */
 const defaultTheme = {
-	/** 系统主题 */
-	systemTheme: {
-		theme: {
-			token: {
-				...baseSystemThemeToken,
-				colorPrimary: rootStyles.getPropertyValue("--color-primary")
-			}
-		}
-	},
-	/** 系统组件主题：如：顶部菜单
-	 * 因为直接改变系统主题的色值，会出现系统组件主题色调冲突的情况，所以需要单独配置系统组件主题
-	 */
-	systemComponentsTheme: {
-		Menu: {
-			itemBg: rootStyles.getPropertyValue("--menu-item-bg")
-		}
+	token: {
+		...baseSystemThemeToken,
+		colorPrimary: rootStyles.getPropertyValue("--color-primary"),
+
+		menuColor: rootStyles.getPropertyValue("--menu-color"),
+		menuHoverBg: rootStyles.getPropertyValue("--menu-hover-bg")
 	}
 };
 
 interface ITheme {
-	systemTheme: {
-		theme: {
-			token: {
-				colorPrimary: string;
-			};
-		};
-	};
-	systemComponentsTheme: {
-		Menu: {
-			itemBg: string;
-		};
+	token: {
+		colorPrimary: string;
+		menuColor: string;
+		menuHoverBg: string;
 	};
 }
 
@@ -63,14 +46,17 @@ export const ThemeProvider = ({ children }: { children: JSX.Element }) => {
 	const [theme, setTheme] = useState(cloneDeep(defaultTheme));
 
 	/**
-	 * 递归newTheme更新css全局变量
+	 * @description 递归newTheme更新css全局变量
+	 * @param obj 递归的对象
+	 * @param prefix 前缀
+	 * @param isComCssVar 是否系统组件主题变量（如果是系统组件变量需要拼接上组件名称）
+	 *
 	 */
 	const updateCssVar = (obj: any) => {
 		Object.keys(obj).forEach(key => {
 			if (Object.prototype.toString.call(obj[key]) === "[object Object]") {
 				updateCssVar(obj[key]);
 			} else {
-				console.log(`--${camelToKebab(key)}`);
 				document.documentElement.style.setProperty(`--${camelToKebab(key)}`, obj[key]);
 			}
 		});
@@ -81,17 +67,15 @@ export const ThemeProvider = ({ children }: { children: JSX.Element }) => {
 	 * @param newTheme 新主题颜色变量
 	 */
 	const updateTheme = (newTheme = {} as any) => {
-		/** 更新theme主题变量 */
 		setTheme(prevTheme => ({
 			...deepMerge(prevTheme, newTheme)
 		}));
-		/** 递归更新css全局变量 */
 		updateCssVar(newTheme);
 	};
 
 	return (
 		<ThemeContext.Provider value={{ theme, updateTheme }}>
-			<ConfigProvider theme={theme.systemTheme.theme}>{children}</ConfigProvider>
+			<ConfigProvider theme={theme}>{children}</ConfigProvider>
 		</ThemeContext.Provider>
 	);
 };

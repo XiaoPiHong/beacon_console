@@ -2,38 +2,35 @@
 	/* 全局颜色变量 */
 	--color-primary: #438eb9;
 
-	/* 系统菜单组件变量 */
-	--menu-item-bg: var(--color-primary);
+	/* 系统导航栏颜色变量 */
+	--menu-color: #ffffff;
+	--menu-hover-bg: #2e6589;
 }
 
 /* 系统导航栏主题 */
-
-/* #menu {
-	--color: #ffffff;
-	--hover-background-color: #2e6589;
-
-	color: var(--color);
+#menu {
+	color: var(--menu-color);
 	background-color: var(--color-primary);
 	.ant-menu-submenu-title {
-		color: var(--color);
+		color: var(--menu-color);
 	}
 	.ant-menu-item-selected {
-		color: var(--color);
+		color: var(--menu-color);
 	}
 	.ant-menu-item-selected::after {
-		border-bottom-color: var(--color);
+		border-bottom-color: var(--menu-color);
 	}
 	.ant-menu-submenu-selected::after {
-		border-bottom-color: var(--color);
+		border-bottom-color: var(--menu-color);
 	}
 	.ant-menu-item-selected:hover {
-		background-color: var(--hover-background-color);
+		background-color: var(--menu-hover-bg);
 	}
 	.ant-menu-submenu:hover {
-		background-color: var(--hover-background-color);
+		background-color: var(--menu-hover-bg);
 	}
 	.ant-menu-item:not(.ant-menu-item-selected, .ant-menu-submenu-selected):hover {
-		color: var(--color);
-		background-color: var(--hover-background-color);
+		color: var(--menu-color);
+		background-color: var(--menu-hover-bg);
 	}
-} */
+}

@@ -3,8 +3,6 @@ import { IStoreState } from "@/store/types";
 import { transformTree } from "@/utils/tree";
 import { useEffect, useState } from "react";
 import { Menu } from "antd";
-import { ConfigProvider } from "antd";
-import { useTheme } from "@/hooks/useTheme";
 interface IMenuProps {
 	permission: IStoreState["user"]["permission"];
 }
@@ -16,8 +14,6 @@ interface IHeaderMenu {
 }
 
 function HeaderMenu({ permission }: IMenuProps) {
-	const { theme } = useTheme();
-
 	const [menus, setMenus] = useState<Array<IHeaderMenu>>([]);
 
 	const onClick = (e: any) => {
@@ -42,17 +38,7 @@ function HeaderMenu({ permission }: IMenuProps) {
 		);
 	}, [permission]);
 
-	return (
-		<ConfigProvider
-			theme={{
-				components: {
-					Menu: theme.systemComponentsTheme.Menu
-				}
-			}}
-		>
-			<Menu id="menu" onClick={onClick} mode="horizontal" items={menus} />
-		</ConfigProvider>
-	);
+	return <Menu id="menu" onClick={onClick} mode="horizontal" items={menus} />;
 }
 
 export default connect((state: IStoreState) => ({
