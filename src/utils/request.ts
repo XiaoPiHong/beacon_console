@@ -1,12 +1,12 @@
 import { message } from "antd";
 import qs from "qs";
+import _ from "lodash-es";
 import * as loadUtil from "@/utils/load";
-import { deepMerge } from ".";
 
 const { VITE_BASE_URL } = import.meta.env;
 
 /**
- * 方式 Enum
+ * 请求方式 Enum
  */
 export enum MethodEnum {
 	GET = "GET",
@@ -17,7 +17,7 @@ export enum MethodEnum {
 }
 
 /**
- * 内容类型 Enum
+ * 响应体的内容类型 Enum
  */
 export enum ContentTypeEnum {
 	APPLICATION_JSON = "application/json", // 默认
@@ -26,95 +26,91 @@ export enum ContentTypeEnum {
 	APPLICATION_VND_MS_EXCEL = "application/vnd.ms-excel"
 }
 
+/**
+ * 请求选项接口
+ */
 interface IRequestOptions {
 	/** 请求路径 */
 	url: string;
 	/** 请求方式 */
 	method: MethodEnum;
-	/** params 请求参数 */
-	params?: { [key: string]: any };
-	/** body 传参 */
-	body?: { [key: string]: any };
-	/** headers 请求头 */
+	/** 查询字符串参数 */
+	query?: { [key: string]: any };
+	/** 请求头 */
 	headers?: { [key: string]: any };
+	/** 请求载荷 */
+	data?: { [key: string]: any };
 }
 
+/**
+ * 请求函数
+ * @param options 请求选项
+ */
 function request(options: IRequestOptions) {
-	const { url, method, params = {} } = options;
-	let { body = {} }: any = options;
-	let hrefSearch = "";
+	let { url, method, query, headers = {}, data = {} } = options;
+	let body;
 
-	const headers = new Headers(
-		deepMerge(
+	headers = new Headers(
+		_.merge(
 			{
 				"Content-Type": ContentTypeEnum.APPLICATION_JSON,
-				authorization: localStorage.getItem("token")
+				authorization: localStorage.getItem("token") || ""
 			},
-			options.headers || {}
+			headers
 		)
 	);
 
-	switch (method) {
-		case MethodEnum.GET:
-		case MethodEnum.HEAD:
-			hrefSearch = qs.stringify(params);
-			body = undefined;
+	switch (headers.get("Content-Type")) {
+		case ContentTypeEnum.APPLICATION_JSON:
+			body = JSON.stringify(data);
 			break;
-		case MethodEnum.PUT:
-		case MethodEnum.POST:
-			{
-				switch (headers.get("Content-Type")) {
-					case ContentTypeEnum.APPLICATION_JSON:
-						body = JSON.stringify(params);
-						break;
-					case ContentTypeEnum.MULTIPART_FORM_DATA:
-						headers.delete("Content-Type"); // 删除使浏览器自动配置才能上传成功
-						body = qs.stringify(options.body); // 自动将object转FormData
-						break;
-				}
-			}
+		case ContentTypeEnum.MULTIPART_FORM_DATA:
+			headers.delete("Content-Type"); // 删除使浏览器自动配置才能上传成功
+			body = qs.stringify(data); // 自动将 object 转 FormData
 			break;
 	}
 
-	return fetch(`${VITE_BASE_URL}${url}?${hrefSearch}`, {
+	return fetch(`${VITE_BASE_URL}${url}${query ? `?${qs.stringify(query)}` : ""}`, {
 		method,
-		body,
 		headers,
+		body,
 		credentials: "include"
 	})
-		.then(response => {
-			if (response.ok) {
-				const contentType = response.headers.get("content-type");
-				switch (true) {
-					case contentType?.includes(ContentTypeEnum.APPLICATION_JSON): {
-						const getBodyPromise = response.json();
-						return getBodyPromise.then(body => {
-							switch (body.code) {
-								case 200:
-									return body;
-								/** 目前先定义200，后续根据后端项目添加 */
-							}
-						});
-					}
-					case contentType?.includes(ContentTypeEnum.APPLICATION_VND_MS_EXCEL): {
-						return response.blob().then(blob => {
-							const url = window.URL.createObjectURL(blob);
+		.then(res => {
+			if (res.ok) {
+				const contentType = res.headers.get("content-type");
 
-							loadUtil.download(
-								url,
-								decodeURIComponent(
-									response.headers.get("content-disposition")?.split("attachment;filename=")[1] ?? `${Date.now()}.xlsx`
-								)
-							);
-							window.URL.revokeObjectURL(url);
-						});
-					}
-					default:
-						return Promise.reject(new Error("请求失败"));
+				if (!contentType) {
+					return Promise.reject(new Error("响应头未找到 Content-Type 字段"));
 				}
-			} else {
-				return Promise.reject(new Error("请求失败"));
+
+				if (contentType.includes(ContentTypeEnum.APPLICATION_JSON)) {
+					return res.json().then(body => {
+						/** 客户端根据不同 code 的含义，执行相应的响应预处理 */
+						switch (body.code) {
+							/** 成功 */
+							case 200:
+								return body;
+							default:
+								return Promise.reject(new Error(`客户端不知道如何处理 code: ${body.code}`));
+						}
+					});
+				} else if (contentType.includes(ContentTypeEnum.APPLICATION_VND_MS_EXCEL)) {
+					return res.blob().then(blob => {
+						const url = window.URL.createObjectURL(blob);
+
+						loadUtil.download(
+							url,
+							decodeURIComponent(res.headers.get("content-disposition")?.split("attachment;filename=")[1] ?? `${Date.now()}.xlsx`)
+						);
+						window.URL.revokeObjectURL(url);
+					});
+				}
+
+				return Promise.reject(new Error(`客户端不知道如何处理 Content-Type: ${contentType}`));
 			}
+
+			return Promise.reject(new Error("未知错误"));
 		})
 		.catch(error => {
 			message.error(error.message);
@@ -122,50 +118,22 @@ function request(options: IRequestOptions) {
 		});
 }
 
-type THttpCommonProps = {
-	url: string;
-	headers?: IRequestOptions["headers"];
+/**
+ * 创建请求函数，通过指定的请求方式
+ * @param method 请求方式
+ */
+const createRequest = (method: MethodEnum) => {
+	return (options: Omit<IRequestOptions, "method">) =>
+		request({
+			...options,
+			method
+		});
 };
-const http = {
-	get: ({ url, params, headers }: THttpCommonProps & { params?: IRequestOptions["params"] }) => {
-		request({
-			url,
-			method: MethodEnum.GET,
-			params,
-			headers
-		});
-	},
-	head: ({ url, params, headers }: THttpCommonProps & { params?: IRequestOptions["params"] }) => {
-		request({
-			url,
-			method: MethodEnum.HEAD,
-			params,
-			headers
-		});
-	},
-	put: ({ url, body, headers }: THttpCommonProps & { body?: IRequestOptions["body"] }) => {
-		request({
-			url,
-			method: MethodEnum.PUT,
-			body,
-			headers
-		});
-	},
-	post: ({ url, body, headers }: THttpCommonProps & { body?: IRequestOptions["body"] }) => {
-		request({
-			url,
-			method: MethodEnum.POST,
-			body,
-			headers
-		});
-	},
-	delete: ({ url, body, headers }: THttpCommonProps & { body?: IRequestOptions["body"] }) => {
-		request({
-			url,
-			method: MethodEnum.DELETE,
-			body,
-			headers
-		});
-	}
+
+export default {
+	get: createRequest(MethodEnum.GET),
+	head: createRequest(MethodEnum.HEAD),
+	put: createRequest(MethodEnum.PUT),
+	post: createRequest(MethodEnum.POST),
+	delete: createRequest(MethodEnum.DELETE)
 };
-export default http;
