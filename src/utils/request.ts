@@ -2,6 +2,7 @@ import { message } from "antd";
 import qs from "qs";
 import _ from "lodash-es";
 import * as loadUtil from "@/utils/load";
+import * as utilsStorage from "@/utils/storage";
 
 const { VITE_BASE_URL } = import.meta.env;
 
@@ -54,7 +55,7 @@ function request(options: IRequestOptions) {
 		_.merge(
 			{
 				"Content-Type": ContentTypeEnum.APPLICATION_JSON,
-				authorization: localStorage.getItem("token") || ""
+				authorization: utilsStorage.local.token.get() || ""
 			},
 			headers
 		)
