@@ -2,11 +2,8 @@ import { connect } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { login } from "@/store/actions/user";
 import style from "./index.module.less";
-import { Form } from "antd";
-import { useNavigate } from "react-router-dom";
-import { getLoginFormItem } from "./indexConfig";
-import { useState } from "react";
-import { useTheme } from "@/hooks/useTheme";
+import { Tabs } from "antd";
+import { useTags } from "./hooks/";
 
 interface ILoginProps {
 	user: IStoreState["user"];
@@ -14,60 +11,26 @@ interface ILoginProps {
 }
 
 function Login(props: ILoginProps) {
-	const navigate = useNavigate();
-
-	const { updateTheme } = useTheme();
-
-	const [loading, setLoading] = useState(false);
-
-	const onFinish = (values: any) => {
-		console.log(values);
-		setLoading(true);
-		props
-			.login()
-			.then(() => {
-				navigate("/home");
-			})
-			.finally(() => {
-				setLoading(false);
-			});
-	};
-
-	const formItems = getLoginFormItem({ loading });
-
-	const test = () => {
-		updateTheme({
-			token: {
-				colorPrimary: "red",
-				menuColor: "black",
-				menuHoverBg: "green"
-			}
-		});
-	};
+	console.log(props);
+	const { tabsActiveKey, tabsList, onChangeTabs } = useTags();
 
 	return (
-		<div className={style["login"]}>
-			<div className={style["login__body"]}>
+		<div className={style["page"]}>
+			<div className={style["login"]}>
 				<div className={style["login__header"]}>
-					<div className={style["login__logo"]}></div>
-					<h1>项目管理系统</h1>
-					<p>项目无忧，系统成就</p>
-					<h2 onClick={test}>登录</h2>
+					<div className={style["login__header-title"]}>项目管理系统</div>
+					<div className={style["login__header-description"]}>项目成功，系统成就</div>
 				</div>
-				<div className={style["login__content"]}>
-					<Form name="basic" wrapperCol={{ span: 24 }} onFinish={onFinish} autoComplete="off">
-						<>{formItems.username}</>
-						<>{formItems.password}</>
-						<>{formItems.remember}</>
-						<>{formItems.submit}</>
-					</Form>
+
+				<div className={style["login__body"]}>
+					<Tabs defaultActiveKey={tabsActiveKey} items={tabsList} onChange={onChangeTabs} />
 				</div>
 			</div>
 		</div>
 	);
 }
 
-//使用connect()()创建并暴露容器组件
+// 使用 connect()() 创建并暴露容器组件
 export default connect(
 	(state: IStoreState) => ({
 		user: state.user

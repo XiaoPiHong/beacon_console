@@ -1,21 +1,24 @@
+.page {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
 .login {
-	position: relative;
-	width: 100%;
-	min-width: 1200px;
-	height: 100%;
-	.login__body {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 25%;
-		padding: 8px;
-		transform: translate(-50%, -50%);
-		.login__header {
-			text-align: center;
+	width: 400px;
+	margin: 240px auto 0;
+	&__header {
+		text-align: center;
+		&-title {
+			font-size: 36px;
+			color: rgb(0 0 0 / 100%);
 		}
-		.login__content {
-			display: flex;
-			flex-direction: column;
+		&-description {
+			margin-top: 8px;
+			font-size: 14px;
+			color: rgb(0 0 0 / 50%);
 		}
+	}
+	&__body {
+		margin-top: 16px;
 	}
 }
