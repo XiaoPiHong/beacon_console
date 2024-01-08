@@ -1,6 +1,6 @@
 import { Input } from "antd";
 
-type ComponentType = "Input";
+export type ComponentType = "Input";
 
 const componentMap = new Map<ComponentType, React.FC>();
 
