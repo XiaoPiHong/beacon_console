@@ -1,5 +1,5 @@
 import { IFormPorps } from "../types";
-import { useFormItemShow, useFormItemWrapperCol, useFormItemRules } from ".";
+import { useFormItemShow, useFormItemRules, useFormItemLabelWidth } from ".";
 
 export default function (props: IFormPorps) {
 	const { items } = props;
@@ -7,14 +7,15 @@ export default function (props: IFormPorps) {
 	const formItems = items
 		.map(item => {
 			const { isIfShow, isShow } = useFormItemShow(item);
-			const { wrapperCol } = useFormItemWrapperCol({ item, formProps: props });
-			const { rules } = useFormItemRules({ item, show: isShow, formProps: props });
+			const { rules } = useFormItemRules({ item, show: isShow });
+			const { labelCol, wrapperCol } = useFormItemLabelWidth({ itemProps: item, formProps: props });
 			return {
 				...item,
 				show: isShow,
 				ifShow: isIfShow,
-				wrapperCol,
-				rules
+				rules,
+				labelCol,
+				wrapperCol
 			};
 		})
 		/** 过滤出要渲染的项 */

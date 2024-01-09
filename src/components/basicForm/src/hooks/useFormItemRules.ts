@@ -1,19 +1,20 @@
-import { IFormPorps, TFormItemProps } from "../types";
+import { TFormItemProps } from "../types";
 import { isFunction, cloneDeep, isNull } from "lodash-es";
 import { createPlaceholderMessage, setComponentRuleType } from "../helper";
+import { RuleObject } from "antd/es/form";
+import { ComponentType } from "../componentMap";
 
-export default function ({ item, show, formProps }: { item: TFormItemProps; show: boolean; formProps: IFormPorps }) {
-	const { rules: defRules = [], component, rulesMessageJoinLabel, label, dynamicRules, required } = item;
+export default function ({ item, show }: { item: TFormItemProps; show: boolean }) {
+	const { rules: defRules = [], label, required, componentProps = {} } = item;
 
-	if (isFunction(dynamicRules)) {
-		return dynamicRules(cloneDeep(item));
+	let rules = cloneDeep(defRules) as RuleObject[];
+
+	let component: ComponentType | null = null;
+	if ("component" in item) {
+		component = item.component as ComponentType;
 	}
 
-	let rules = cloneDeep(defRules);
-	const { rulesMessageJoinLabel: globalRulesMessageJoinLabel } = item;
-
-	const joinLabel = Reflect.has(item, "rulesMessageJoinLabel") ? rulesMessageJoinLabel : globalRulesMessageJoinLabel;
-	const defaultMsg = createPlaceholderMessage(component) + `${joinLabel ? label : ""}`;
+	const defaultMsg = component ? createPlaceholderMessage(component) + label : "";
 
 	function validator(rule: any, value: any) {
 		const msg = rule.message || defaultMsg;
@@ -77,7 +78,7 @@ export default function ({ item, show, formProps }: { item: TFormItemProps; show
 			if (component.includes("Input") || component.includes("Textarea")) {
 				rule.whitespace = true;
 			}
-			const valueFormat = formProps.componentProps.valueFormat;
+			const valueFormat = componentProps.valueFormat;
 			setComponentRuleType(rule, component, valueFormat);
 		}
 	}

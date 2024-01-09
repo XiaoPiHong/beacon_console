@@ -1,6 +1,5 @@
 import { IFormPorps, TFormItemProps } from "../types";
 import { isBoolean, isFunction, cloneDeep } from "lodash-es";
-import { ColProps } from "antd";
 
 /** 控制表单项显示与隐藏 */
 export function useFormItemShow(item: TFormItemProps): { isShow: boolean; isIfShow: boolean } {
@@ -24,14 +23,14 @@ export function useFormItemShow(item: TFormItemProps): { isShow: boolean; isIfSh
 	return { isShow, isIfShow };
 }
 
-/** 控制表单项栅格布局 */
-export function useFormItemWrapperCol({ item, formProps }: { item: TFormItemProps; formProps: IFormPorps }) {
-	const { wrapperCol = { span: 24 } } = formProps;
+/** 控制所有选子项的 ColProps */
+export function useFormItemColProps({ itemProps, formProps }: { itemProps: TFormItemProps; formProps: IFormPorps }) {
+	/** 默认占整行 */
+	const { baseColProps = { span: 24 } } = formProps;
+	const { colProps } = itemProps;
+	const realColProps = { ...baseColProps, ...colProps };
 	return {
-		wrapperCol: {
-			...wrapperCol,
-			...item.wrapperCol
-		}
+		realColProps
 	};
 }
 
@@ -40,3 +39,6 @@ export { default as useFormItemRules } from "./useFormItemRules";
 
 /** 控制表单项 */
 export { default as useFormItem } from "./useFormItem";
+
+/** 控制表单项lable宽度 */
+export { default as useFormItemLabelWidth } from "./useFormItemLabelWidth";

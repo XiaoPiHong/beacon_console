@@ -9,7 +9,7 @@ function BasicForm(props: IFormPorps) {
 		<Form>
 			<Row>
 				{formItems.map((item, index) => (
-					<FormItem key={index} {...item} />
+					<FormItem key={index} itemProps={item} formProps={props} />
 				))}
 			</Row>
 		</Form>

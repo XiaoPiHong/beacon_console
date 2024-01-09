@@ -1,12 +1,14 @@
 import { Form, Col } from "antd";
-import { TFormItemProps } from "../../types";
+import { IFormPorps, TFormItemProps } from "../../types";
 import style from "./index.module.less";
+import { useFormItemColProps } from "../../hooks";
 
-function FormItem(props: TFormItemProps) {
-	const { show } = props;
+function FormItem({ formProps, itemProps }: { formProps: IFormPorps; itemProps: TFormItemProps }) {
+	const { name, label, rules, show, labelCol, wrapperCol } = itemProps;
+	const { realColProps } = useFormItemColProps({ itemProps, formProps });
 	return (
-		<Col className={!show ? style["form-item-hidden"] : ""}>
-			<Form.Item {...props}></Form.Item>
+		<Col {...realColProps} className={!show ? style["form-item-hidden"] : ""}>
+			<Form.Item name={name} label={label} rules={rules} labelCol={labelCol} wrapperCol={wrapperCol}></Form.Item>
 		</Col>
 	);
 }
