@@ -1,7 +1,7 @@
 import { Spin } from "antd";
 import style from "./index.module.less";
 
-function Loading() {
+const Loading = () => {
 	return (
 		<div className={style["loading-container"]}>
 			<Spin tip="玩命加载中">
@@ -12,6 +12,6 @@ function Loading() {
 			</Spin>
 		</div>
 	);
-}
+};
 
 export default Loading;

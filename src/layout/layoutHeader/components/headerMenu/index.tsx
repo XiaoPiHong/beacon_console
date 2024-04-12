@@ -13,7 +13,7 @@ interface IHeaderMenu {
 	children?: IHeaderMenu[];
 }
 
-function HeaderMenu({ permission }: IMenuProps) {
+const HeaderMenu = ({ permission }: IMenuProps) => {
 	const [menus, setMenus] = useState<Array<IHeaderMenu>>([]);
 
 	const onClick = (e: any) => {
@@ -39,7 +39,7 @@ function HeaderMenu({ permission }: IMenuProps) {
 	}, [permission]);
 
 	return <Menu id="menu" onClick={onClick} mode="horizontal" items={menus} />;
-}
+};
 
 export default connect((state: IStoreState) => ({
 	permission: state.user.permission

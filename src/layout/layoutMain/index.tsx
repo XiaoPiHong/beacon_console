@@ -1,4 +1,4 @@
-function LayoutMain({ children }: { children: JSX.Element }) {
+const LayoutMain = ({ children }: { children: JSX.Element }) => {
 	return children;
-}
+};
 export default LayoutMain;
