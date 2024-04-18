@@ -28,7 +28,8 @@ export const getLoginFormProps = ({ methods, loading, onClickLoginBtn }): IReact
 			{
 				name: "remember",
 				label: "",
-				initialValue: true,
+				initialValue: false,
+				valuePropName: "checked",
 				render: ({ model }) => {
 					return (
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -90,6 +91,7 @@ export const getRegisterFormProps = ({ methods, loading, onClickRegisterBtn }) =
 				name: "remember",
 				label: "",
 				initialValue: false,
+				valuePropName: "checked",
 				render: ({ model }) => {
 					return (
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
