@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { Form } from "antd";
-import { getLoginFormItem } from "../indexConfig";
+import { getRegisterFormProps } from "../indexConfig";
+import { ReactForm, useReactForm } from "xph-form";
 
 /**
  * 注册表单
  */
 export default function () {
-	const [loading] = useState(false);
-	const formItems = getLoginFormItem({ loading });
+	const [loading, setLoading] = useState(false);
+	const [register, methods] = useReactForm();
 
-	return (
-		<Form name="basic" wrapperCol={{ span: 24 }} autoComplete="off">
-			<>{formItems.username}</>
-			<>{formItems.password}</>
-			<>{formItems.remember}</>
-			<>{formItems.submit}</>
-		</Form>
-	);
+	const onClickRegisterBtn = () => {
+		setLoading(true);
+		setLoading(false);
+	};
+
+	const formProps = getRegisterFormProps({ methods, loading, onClickRegisterBtn });
+
+	return <ReactForm register={register} {...formProps}></ReactForm>;
 }

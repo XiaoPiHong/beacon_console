@@ -3,7 +3,7 @@ import { IStoreState } from "@/store/types";
 import { login } from "@/store/actions/user";
 import style from "./index.module.less";
 import { Tabs } from "antd";
-import { useTags } from "./hooks/";
+import { useTags } from "./hooks";
 
 interface ILoginProps {
 	user: IStoreState["user"];
