@@ -10,7 +10,7 @@ interface ILoginProps {
 	login: (args?: any) => Promise<any>;
 }
 
-function Login(props: ILoginProps) {
+const Login = (props: ILoginProps) => {
 	console.log(props);
 	const { tabsActiveKey, tabsList, onChangeTabs } = useTags();
 
@@ -28,7 +28,7 @@ function Login(props: ILoginProps) {
 			</div>
 		</div>
 	);
-}
+};
 
 // 使用 connect()() 创建并暴露容器组件
 export default connect(
