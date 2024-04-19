@@ -1,7 +1,7 @@
 import style from "./index.module.less";
 import HeaderMenu from "./components/headerMenu";
 
-function LayoutHeader() {
+const LayoutHeader = () => {
 	return (
 		<div className={style["header-container"]}>
 			<div className={style["header-container-logo"]}></div>
@@ -11,5 +11,5 @@ function LayoutHeader() {
 			<div className={style["header-container-setting"]}></div>
 		</div>
 	);
-}
+};
 export default LayoutHeader;

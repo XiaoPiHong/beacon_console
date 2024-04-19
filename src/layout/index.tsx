@@ -4,7 +4,7 @@ import LayoutHeader from "./layoutHeader";
 import LayoutTabs from "./layoutTabs";
 import LayoutMain from "./layoutMain";
 
-function Layout() {
+const Layout = () => {
 	return (
 		<div className={style["app-container"]}>
 			<div className={style["app-container__header"]}>
@@ -20,6 +20,6 @@ function Layout() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default Layout;
