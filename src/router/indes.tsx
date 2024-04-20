@@ -10,6 +10,7 @@ import { IStoreState } from "@/store/types";
 import { getUserInfo, getPermission } from "@/store/actions/user";
 import { useDispatch } from "react-redux";
 import Loading from "@/components/loading";
+import * as utilsStorage from "@/utils/storage";
 
 export interface IRoute {
 	path: string;
@@ -43,7 +44,7 @@ interface IRouteAppraisalProps {
  * @param IRouteAppraisalProps {children:子节点}
  */
 export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
-	const token = localStorage.getItem("token");
+	const token = utilsStorage.local.token.get();
 
 	const { userInfo } = useSelector((state: IStoreState) => ({ userInfo: state.user.userInfo }), shallowEqual);
 	const dispatch = useDispatch();
@@ -84,22 +85,22 @@ export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
 export const whiteRoutes: Array<IRoute> = [
 	{
 		path: "/login",
-		element: localStorage.getItem("token") ? <Navigate replace to="/home" /> : <Login />
-	},
+		element: utilsStorage.local.token.get() ? <Navigate replace to="/home" /> : <Login />
+	}
 	// {
 	// 	path: "/register",
 	// 	element: <Register />
 	// },
-	{
-		path: "/system",
-		element: <Layout />,
-		children: [
-			{
-				path: "department",
-				element: lazyLoad("system/department")
-			}
-		]
-	}
+	// {
+	// 	path: "/system",
+	// 	element: <Layout />,
+	// 	children: [
+	// 		{
+	// 			path: "department",
+	// 			element: lazyLoad("system/department")
+	// 		}
+	// 	]
+	// }
 ];
 
 /**

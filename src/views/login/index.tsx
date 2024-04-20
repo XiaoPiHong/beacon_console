@@ -1,17 +1,8 @@
-import { connect } from "react-redux";
-import { IStoreState } from "@/store/types";
-import { login } from "@/store/actions/user";
 import style from "./index.module.less";
 import { Tabs } from "antd";
 import { useTags } from "./hooks";
 
-interface ILoginProps {
-	user: IStoreState["user"];
-	login: (args?: any) => Promise<any>;
-}
-
-const Login = (props: ILoginProps) => {
-	console.log(props);
+const Login = () => {
 	const { tabsActiveKey, tabsList, onChangeTabs } = useTags();
 
 	return (
@@ -30,10 +21,4 @@ const Login = (props: ILoginProps) => {
 	);
 };
 
-// 使用 connect()() 创建并暴露容器组件
-export default connect(
-	(state: IStoreState) => ({
-		user: state.user
-	}),
-	{ login }
-)(Login);
+export default Login;
