@@ -21,7 +21,7 @@ const permission: IPermission[] = [
 	},
 	{
 		permissionId: "2",
-		permissionName: "系统管理",
+		permissionName: "系统",
 		permissionCode: "/system",
 		description: "string",
 		type: "ROUTE",
@@ -74,6 +74,22 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "BUTTON",
 		parentPermissionId: "2-1"
+	},
+	{
+		permissionId: "3",
+		permissionName: "用户",
+		permissionCode: "/user",
+		description: "string",
+		type: "ROUTE",
+		parentPermissionId: null
+	},
+	{
+		permissionId: "3-1",
+		permissionName: "用户管理",
+		permissionCode: "/userManage",
+		description: "string",
+		type: "ROUTE",
+		parentPermissionId: "3"
 	}
 ];
 

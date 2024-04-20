@@ -3,6 +3,7 @@ import usePermissionRoutes from "@/hooks/usePermissionRoutes";
 
 const App = () => {
 	const { routes } = usePermissionRoutes();
+	console.log(routes);
 
 	// 根据路由表生成对应的路由规则
 	const element = useRoutes(routes);

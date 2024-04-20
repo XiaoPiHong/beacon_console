@@ -14,3 +14,15 @@ export function deepMerge<T extends object | null | undefined, U extends object 
 		}
 	});
 }
+
+/**
+ *
+ * @description 格式化路径
+ * @param string path:需格式化的路径
+ * @example /page/name 替换成 page/name
+ * @example /page/name/:id/:name 替换成 page/name
+ *
+ * */
+export const formatterUrl = (path: string) => {
+	return path.replace(/^\//, "").replace(/\/:[^/]+/g, "");
+};

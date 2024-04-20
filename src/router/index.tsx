@@ -4,7 +4,6 @@ import Layout from "@/layout";
 import Home from "@/views/home";
 import Login from "@/views/login";
 // import Register from "@/views/register";
-import { PageAppraisal } from "@/hooks/usePermission";
 import { useSelector, shallowEqual } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { getUserInfo, getPermission } from "@/store/actions/user";
@@ -82,59 +81,62 @@ export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
  * 1、白名单路由需不需要登录鉴权根据业务需求来定，需要则包裹在RouteAppraisal组件中
  * 2、默认白名单中的路由都是无需页面鉴权的
  */
-export const whiteRoutes: Array<IRoute> = [
-	{
-		path: "/login",
-		element: utilsStorage.local.token.get() ? <Navigate replace to="/home" /> : <Login />
-	}
-	// {
-	// 	path: "/register",
-	// 	element: <Register />
-	// },
-	// {
-	// 	path: "/system",
-	// 	element: <Layout />,
-	// 	children: [
-	// 		{
-	// 			path: "department",
-	// 			element: lazyLoad("system/department")
-	// 		}
-	// 	]
-	// }
-];
+export const getWhiteRoutes = (): Array<IRoute> => {
+	return [
+		{
+			path: "/login",
+			element: utilsStorage.local.token.get() ? <Navigate replace to="/home" /> : <Login />
+		},
+		// {
+		// 	path: "/register",
+		// 	element: <Register />
+		// },
+		{
+			path: "/user",
+			element: <Layout />,
+			children: [
+				{
+					path: "userManage",
+					element: <RouteAppraisal>{lazyLoad("user/userManage")}</RouteAppraisal>
+				}
+			]
+		}
+	];
+};
 
 /**
  * @description 基本路由表（基本路由表不可修改）
  */
-export const baseRoutes: Array<IRoute> = [
-	{
-		path: "/",
-		element: <Navigate to="/home" />
-	},
-	{
-		path: "/home",
-		element: <Layout />,
-		children: [
-			{
-				path: "",
-				element: (
-					<RouteAppraisal>
-						<PageAppraisal permissionCode="/home">
+export const getBaseRoutes = (newRoutes: Array<IRoute>): Array<IRoute> => {
+	return [
+		{
+			path: "/",
+			element: <Navigate to="/home" />
+		},
+		...newRoutes,
+		{
+			path: "/home",
+			element: <Layout />,
+			children: [
+				{
+					path: "",
+					element: (
+						<RouteAppraisal>
 							<Home />
-						</PageAppraisal>
-					</RouteAppraisal>
-				)
-			}
-		]
-	},
-	{
-		path: "*",
-		element: <Layout />,
-		children: [
-			{
-				path: "*",
-				element: <RouteAppraisal>{lazyLoad("error", { type: 404 })}</RouteAppraisal>
-			}
-		]
-	}
-];
+						</RouteAppraisal>
+					)
+				}
+			]
+		},
+		{
+			path: "*",
+			element: <Layout />,
+			children: [
+				{
+					path: "*",
+					element: <RouteAppraisal>{lazyLoad("error", { type: 404 })}</RouteAppraisal>
+				}
+			]
+		}
+	];
+};

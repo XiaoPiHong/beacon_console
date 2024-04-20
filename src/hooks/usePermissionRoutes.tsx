@@ -2,27 +2,16 @@ import { shallowEqual, useSelector } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { IPermission } from "@/store/constant/user";
 import { useEffect, useState } from "react";
-import { whiteRoutes, baseRoutes, lazyLoad, RouteAppraisal, IRoute } from "@/router/indes";
+import { getWhiteRoutes, getBaseRoutes, lazyLoad, RouteAppraisal, IRoute } from "@/router";
 import { transformTree } from "@/utils/tree";
+import { formatterUrl } from "@/utils";
+import { cloneDeep, get } from "lodash-es";
 import Layout from "@/layout";
-import { cloneDeep } from "lodash-es";
 import { PageAppraisal } from "@/hooks/usePermission";
 
 type TPermissionTreeNode = IPermission & {
 	url: string; // 完整路径
 	children: TPermissionTreeNode[]; // 子级
-};
-
-/**
- *
- * @description 格式化路径
- * @param string path:需格式化的路径
- * @example /page/name 替换成 page/name
- * @example /page/name/:id/:name 替换成 page/name
- *
- * */
-const formatterUrl = (path: string) => {
-	return path.replace(/^\//, "").replace(/\/:[^/]+/g, "");
 };
 
 /** 获取路由表路径 */
@@ -51,7 +40,9 @@ const getRouteElement = (parentNode: TPermissionTreeNode | null, node: TPermissi
 			const path = node.url;
 			return (
 				<RouteAppraisal>
-					<PageAppraisal permissionCode={node.permissionCode}>{lazyLoad(formatterUrl(path))}</PageAppraisal>
+					<PageAppraisal url={node.url} id={node.permissionId}>
+						{lazyLoad(formatterUrl(path))}
+					</PageAppraisal>
 				</RouteAppraisal>
 			);
 		}
@@ -77,7 +68,9 @@ const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermiss
 						path: "",
 						element: (
 							<RouteAppraisal>
-								<PageAppraisal permissionCode={node.permissionCode}>{lazyLoad(formatterUrl(node.permissionCode))}</PageAppraisal>
+								<PageAppraisal url={node.url} id={node.permissionId}>
+									{lazyLoad(formatterUrl(node.permissionCode))}
+								</PageAppraisal>
 							</RouteAppraisal>
 						)
 					}
@@ -105,7 +98,7 @@ export default function () {
 	const { permission } = useSelector((state: IStoreState) => ({ permission: state.user.permission }), shallowEqual);
 
 	/** 先生成默认路由表 */
-	const [routes, setRoutes] = useState<IRoute[]>([...whiteRoutes, ...baseRoutes]);
+	const [routes, setRoutes] = useState<IRoute[]>([...getWhiteRoutes(), ...getBaseRoutes([])]);
 
 	useEffect(() => {
 		/** 生成树 */
@@ -123,7 +116,7 @@ export default function () {
 		);
 		/** 递归树生成权限路由表 */
 		const newRoutes = initRoutes(cloneDeep(permissionTree));
-		setRoutes([...whiteRoutes, ...newRoutes, ...baseRoutes]);
+		setRoutes([...getWhiteRoutes(), ...getBaseRoutes(newRoutes)]);
 	}, [permission]);
 
 	return {
