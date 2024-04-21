@@ -15,5 +15,6 @@ export interface IPermission {
 	permissionCode: string;
 	description: string;
 	type: "ROUTE" | "BUTTON";
+	show: boolean /** 是否显示路由 */;
 	parentPermissionId: string | null /**null为顶级 */;
 }

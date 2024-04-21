@@ -1,13 +1,9 @@
-import { shallowEqual, useSelector } from "react-redux";
-import { IStoreState } from "@/store/types";
 import { IPermission } from "@/store/constant/user";
-import { useEffect, useState } from "react";
 import { getWhiteRoutes, getBaseRoutes, lazyLoad, RouteAppraisal, IRoute } from "@/router";
-import { transformTree } from "@/utils/tree";
 import { formatterUrl } from "@/utils";
-import { cloneDeep, get } from "lodash-es";
 import Layout from "@/layout";
 import { PageAppraisal } from "@/hooks/usePermission";
+import useMenu from "@/hooks/useMenu";
 
 type TPermissionTreeNode = IPermission & {
 	url: string; // 完整路径
@@ -61,7 +57,7 @@ const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermiss
 			return initRoutes(node.children, node);
 		}
 		case false: {
-			/** 无子级 & 无父级 为其增添一个空路径子路由 */
+			/** 无父级 & 无子级 为其增添一个空路径子路由 */
 			if (node.children!.length === 0) {
 				return [
 					{
@@ -94,33 +90,15 @@ const initRoutes = (list: TPermissionTreeNode[], parentNode: any = null): IRoute
 };
 
 export default function () {
-	/** 获取到权限 */
-	const { permission } = useSelector((state: IStoreState) => ({ permission: state.user.permission }), shallowEqual);
+	const { menu } = useMenu({
+		filterUnShowRoute: false
+	});
+	console.log(menu);
 
-	/** 先生成默认路由表 */
-	const [routes, setRoutes] = useState<IRoute[]>([...getWhiteRoutes(), ...getBaseRoutes([])]);
-
-	useEffect(() => {
-		/** 生成树 */
-		const permissionTree: TPermissionTreeNode[] = transformTree(
-			null,
-			permission.filter(per => per.type === "ROUTE"),
-			{
-				idKey: "permissionId",
-				parentIdKey: "parentPermissionId",
-				formatNode: ({ data, children }) => ({
-					...data,
-					children
-				})
-			}
-		);
-		/** 递归树生成权限路由表 */
-		const newRoutes = initRoutes(cloneDeep(permissionTree));
-		setRoutes([...getWhiteRoutes(), ...getBaseRoutes(newRoutes)]);
-	}, [permission]);
-
+	/** 递归树生成权限路由表 */
+	const newRoutes = initRoutes(menu);
+	const routes: IRoute[] = [...getWhiteRoutes(), ...getBaseRoutes(newRoutes)];
 	return {
-		routes,
-		setRoutes
+		routes
 	};
 }

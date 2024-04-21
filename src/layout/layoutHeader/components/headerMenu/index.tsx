@@ -1,44 +1,34 @@
 import { connect } from "react-redux";
 import { IStoreState } from "@/store/types";
-import { transformTree } from "@/utils/tree";
-import { useEffect, useState } from "react";
 import { Menu } from "antd";
+import useMenu from "@/hooks/useMenu";
+import { useNavigate } from "react-router-dom";
 interface IMenuProps {
 	permission: IStoreState["user"]["permission"];
 }
 
-interface IHeaderMenu {
-	key: string;
-	label: string;
-	children?: IHeaderMenu[];
-}
-
 const HeaderMenu = ({ permission }: IMenuProps) => {
-	const [menus, setMenus] = useState<Array<IHeaderMenu>>([]);
+	const navigate = useNavigate();
 
-	const onClick = (e: any) => {
-		console.log(e);
+	const { menu } = useMenu({
+		formatNode: ({ permissionId, url, permissionName, children }) => {
+			return {
+				key: permissionId,
+				label: permissionName,
+				url: url,
+				children: children.length ? children : undefined
+			};
+		}
+	});
+
+	const onSelectMenu = (e: any) => {
+		const {
+			props: { url }
+		} = e.item;
+		navigate(url);
 	};
 
-	useEffect(() => {
-		setMenus(
-			transformTree(
-				null,
-				permission.filter(per => per.type === "ROUTE"),
-				{
-					idKey: "permissionId",
-					parentIdKey: "parentPermissionId",
-					formatNode: ({ data, children }) => ({
-						key: data.permissionId,
-						label: data.permissionName,
-						children: children.length ? children : undefined
-					})
-				}
-			)
-		);
-	}, [permission]);
-
-	return <Menu id="menu" onClick={onClick} mode="horizontal" items={menus} />;
+	return <Menu id="menu" onSelect={onSelectMenu} mode="horizontal" items={menu} />;
 };
 
 export default connect((state: IStoreState) => ({

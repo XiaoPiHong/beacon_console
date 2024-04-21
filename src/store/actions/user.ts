@@ -9,6 +9,7 @@ const permission: IPermission[] = [
 		permissionCode: "/home",
 		description: "string",
 		type: "ROUTE",
+		show: true,
 		parentPermissionId: null
 	},
 	{
@@ -17,6 +18,7 @@ const permission: IPermission[] = [
 		permissionCode: "view",
 		description: "string",
 		type: "BUTTON",
+		show: true,
 		parentPermissionId: "1"
 	},
 	{
@@ -25,6 +27,7 @@ const permission: IPermission[] = [
 		permissionCode: "/system",
 		description: "string",
 		type: "ROUTE",
+		show: true,
 		parentPermissionId: null
 	},
 	{
@@ -33,6 +36,7 @@ const permission: IPermission[] = [
 		permissionCode: "/role/:id/:name",
 		description: "string",
 		type: "ROUTE",
+		show: false,
 		parentPermissionId: "2"
 	},
 	{
@@ -41,6 +45,7 @@ const permission: IPermission[] = [
 		permissionCode: "/organizationalStructure",
 		description: "string",
 		type: "ROUTE",
+		show: false,
 		parentPermissionId: "2"
 	},
 	{
@@ -49,6 +54,7 @@ const permission: IPermission[] = [
 		permissionCode: "/department",
 		description: "string",
 		type: "ROUTE",
+		show: true,
 		parentPermissionId: "2-2"
 	},
 	{
@@ -57,6 +63,7 @@ const permission: IPermission[] = [
 		permissionCode: "view",
 		description: "string",
 		type: "BUTTON",
+		show: true,
 		parentPermissionId: "2-2-1"
 	},
 	{
@@ -65,6 +72,7 @@ const permission: IPermission[] = [
 		permissionCode: "view",
 		description: "string",
 		type: "BUTTON",
+		show: true,
 		parentPermissionId: "2-1"
 	},
 	{
@@ -73,6 +81,7 @@ const permission: IPermission[] = [
 		permissionCode: "edit",
 		description: "string",
 		type: "BUTTON",
+		show: true,
 		parentPermissionId: "2-1"
 	},
 	{
@@ -81,6 +90,7 @@ const permission: IPermission[] = [
 		permissionCode: "/user",
 		description: "string",
 		type: "ROUTE",
+		show: true,
 		parentPermissionId: null
 	},
 	{
@@ -89,6 +99,7 @@ const permission: IPermission[] = [
 		permissionCode: "/userManage",
 		description: "string",
 		type: "ROUTE",
+		show: true,
 		parentPermissionId: "3"
 	}
 ];
