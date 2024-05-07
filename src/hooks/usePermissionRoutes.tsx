@@ -58,7 +58,7 @@ const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermiss
 		}
 		case false: {
 			/** 无父级 & 无子级 为其增添一个空路径子路由 */
-			if (node.children.length) {
+			if (!node.children.length) {
 				return [
 					{
 						path: "",
@@ -97,7 +97,6 @@ export default function () {
 
 	/** 递归树生成权限路由表 */
 	const newRoutes = initRoutes(menu);
-	console.log(menu);
 	const routes: IRoute[] = [...getWhiteRoutes(), ...getBaseRoutes(newRoutes)];
 	return {
 		routes

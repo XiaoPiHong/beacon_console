@@ -25,7 +25,6 @@ const modules = import.meta.glob("../views/**/*.tsx");
  * @param props 传递给加载模块的属性
  */
 export const lazyLoad = (moduleName: string, props?: any) => {
-	console.log(moduleName);
 	const Module = lazy(modules[`../views/${moduleName}/index.tsx`] as () => Promise<{ default: ComponentType<any> }>);
 	return (
 		/** 如果在懒加载组件尚未加载完成时尝试访问该组件会报错，使用Suspense处理 */
