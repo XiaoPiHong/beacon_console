@@ -17,15 +17,15 @@ export interface IRoute {
 	children?: IRoute[];
 }
 
-// /**/ 表示二级目录 一般二级目录就够了  不够再加即可
 const modules = import.meta.glob("../views/**/*.tsx");
 
 /**
  * @description 快速导入工具函数
- * @param string moduleName:模块路径
- * @param any props:传递给加载模块的属性
+ * @param moduleName 模块路径
+ * @param props 传递给加载模块的属性
  */
 export const lazyLoad = (moduleName: string, props?: any) => {
+	console.log(moduleName);
 	const Module = lazy(modules[`../views/${moduleName}/index.tsx`] as () => Promise<{ default: ComponentType<any> }>);
 	return (
 		/** 如果在懒加载组件尚未加载完成时尝试访问该组件会报错，使用Suspense处理 */
@@ -40,7 +40,6 @@ interface IRouteAppraisalProps {
 }
 /**
  * @description 登录鉴权组件
- * @param IRouteAppraisalProps {children:子节点}
  */
 export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
 	const token = utilsStorage.local.token.get();
@@ -77,9 +76,6 @@ export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
 
 /**
  * @description 白名单路由表
- * @description 白名单路由表注意点：
- * 1、白名单路由需不需要登录鉴权根据业务需求来定，需要则包裹在RouteAppraisal组件中
- * 2、默认白名单中的路由都是无需页面鉴权的
  */
 export const getWhiteRoutes = (): Array<IRoute> => {
 	return [

@@ -45,7 +45,7 @@ const permission: IPermission[] = [
 		permissionCode: "/organizationalStructure",
 		description: "string",
 		type: "ROUTE",
-		show: false,
+		show: true,
 		parentPermissionId: "2"
 	},
 	{

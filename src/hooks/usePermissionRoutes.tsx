@@ -4,6 +4,7 @@ import { formatterUrl } from "@/utils";
 import Layout from "@/layout";
 import { PageAppraisal } from "@/hooks/usePermission";
 import useMenu from "@/hooks/useMenu";
+import { Outlet } from "react-router-dom";
 
 type TPermissionTreeNode = IPermission & {
 	url: string; // 完整路径
@@ -14,14 +15,10 @@ type TPermissionTreeNode = IPermission & {
 const getRoutePath = (parentNode: TPermissionTreeNode | null, node: TPermissionTreeNode) => {
 	const flag = !!parentNode;
 	switch (flag) {
-		/** 有父级 */
 		case true: {
-			/** 返回 role */
 			return node.permissionCode.replace(/^\//, "");
 		}
-		/** 无父级 */
 		case false: {
-			/** 返回 /system */
 			return node.permissionCode;
 		}
 	}
@@ -30,20 +27,22 @@ const getRoutePath = (parentNode: TPermissionTreeNode | null, node: TPermissionT
 /** 获取路由表组件 */
 const getRouteElement = (parentNode: TPermissionTreeNode | null, node: TPermissionTreeNode) => {
 	const flag = !!parentNode;
+	const { url } = node;
 	switch (flag) {
 		case true: {
-			/** 返回自身模块 */
-			const path = node.url;
-			return (
-				<RouteAppraisal>
-					<PageAppraisal url={node.url} id={node.permissionId}>
-						{lazyLoad(formatterUrl(path))}
-					</PageAppraisal>
-				</RouteAppraisal>
-			);
+			if (node.children.length) {
+				return <Outlet />;
+			} else {
+				return (
+					<RouteAppraisal>
+						<PageAppraisal url={url} id={node.permissionId}>
+							{lazyLoad(formatterUrl(url))}
+						</PageAppraisal>
+					</RouteAppraisal>
+				);
+			}
 		}
 		case false: {
-			/** 返回布局模块 */
 			return <Layout />;
 		}
 	}
@@ -52,27 +51,29 @@ const getRouteElement = (parentNode: TPermissionTreeNode | null, node: TPermissi
 /** 获取路由表子级 */
 const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermissionTreeNode) => {
 	const flag = !!parentNode;
+	const { url } = node;
 	switch (flag) {
 		case true: {
 			return initRoutes(node.children, node);
 		}
 		case false: {
 			/** 无父级 & 无子级 为其增添一个空路径子路由 */
-			if (node.children!.length === 0) {
+			if (node.children.length) {
 				return [
 					{
 						path: "",
 						element: (
 							<RouteAppraisal>
-								<PageAppraisal url={node.url} id={node.permissionId}>
-									{lazyLoad(formatterUrl(node.permissionCode))}
+								<PageAppraisal url={url} id={node.permissionId}>
+									{lazyLoad(formatterUrl(url))}
 								</PageAppraisal>
 							</RouteAppraisal>
 						)
 					}
 				];
+			} else {
+				return initRoutes(node.children, node);
 			}
-			return initRoutes(node.children, node);
 		}
 	}
 };
@@ -93,10 +94,10 @@ export default function () {
 	const { menu } = useMenu({
 		filterUnShowRoute: false
 	});
-	console.log(menu);
 
 	/** 递归树生成权限路由表 */
 	const newRoutes = initRoutes(menu);
+	console.log(menu);
 	const routes: IRoute[] = [...getWhiteRoutes(), ...getBaseRoutes(newRoutes)];
 	return {
 		routes

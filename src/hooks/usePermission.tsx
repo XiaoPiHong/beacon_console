@@ -1,7 +1,6 @@
 import { shallowEqual, useSelector } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { lazyLoad } from "@/router";
-import { Outlet } from "react-router-dom";
 
 interface IPageAppraisalProps {
 	/** 子节点 */
@@ -14,8 +13,6 @@ interface IPageAppraisalProps {
 
 /**
  * @description 页面查询鉴权组件
- * @description 只有需要路由鉴权的页面才需使用该组件
- * @param IPageAppraisalProps
  */
 export const PageAppraisal = ({ children, url, id }: IPageAppraisalProps) => {
 	/** 获取所有权限 */
@@ -28,20 +25,9 @@ export const PageAppraisal = ({ children, url, id }: IPageAppraisalProps) => {
 	const buttonsPermission = permission.filter(
 		item => item.parentPermissionId === pagePermission?.permissionId && item.type === "BUTTON"
 	);
-	/** 当前路由的路由权限 */
-	const routesPermission = permission.filter(
-		item => item.parentPermissionId === pagePermission?.permissionId && item.type === "ROUTE"
-	);
 
-	let hasViewPermission = false;
+	/** 是否有view权限 */
+	const hasViewPermission = buttonsPermission.findIndex(item => item.permissionCode === "view") !== -1;
 
-	if (routesPermission.length > 0) {
-		/** 有子路由直接放行，放行一个路由占位组件 */
-		return <Outlet />;
-	} else if (buttonsPermission.length > 0) {
-		/** 有view权限才可以查看当前页面，否则跳转错误页 403 */
-		const viewPermission = buttonsPermission.findIndex(item => item.permissionCode === "view") !== -1;
-		hasViewPermission = viewPermission;
-	}
 	return hasViewPermission ? children : lazyLoad("error", { type: 403 });
 };

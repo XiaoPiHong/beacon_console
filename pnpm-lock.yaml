@@ -39,8 +39,8 @@ dependencies:
     specifier: ^0.6.0
     version: 0.6.0
   xph-form:
-    specifier: ^1.1.8
-    version: 1.1.8
+    specifier: ^1.2.2
+    version: 1.2.2
 
 devDependencies:
   '@commitlint/cli':
@@ -6039,8 +6039,8 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /xph-form@1.1.8:
-    resolution: {integrity: sha512-BUf5uoTDB0r0D+5HOlLv62hzFWZ/wjNbCQdWiWnxXLKCY0dT37w4Up0weiuVVZMe7ViAG0zgesQ3thrg4JJ3Lw==}
+  /xph-form@1.2.2:
+    resolution: {integrity: sha512-H5TQnYq8kKvLR9veKPkvS4i8S1MyGPcWQTPrfHgWADQsWx7gBnUOBN0ezzB7aT9AoIaWgrZjhYnwCF9ia0rvZQ==}
     engines: {node: '>=16'}
     dev: false
 
