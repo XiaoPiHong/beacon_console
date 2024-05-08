@@ -79,7 +79,7 @@ const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermiss
 };
 
 /** 递归树生成权限路由表 */
-const initRoutes = (list: TPermissionTreeNode[], parentNode: any = null): IRoute[] => {
+const initRoutes = (list: TPermissionTreeNode[], parentNode: TPermissionTreeNode | null = null): IRoute[] => {
 	return list.map((node: TPermissionTreeNode) => {
 		node.url = (parentNode?.url || "") + node.permissionCode;
 		return {
@@ -94,7 +94,6 @@ export default function () {
 	const { menu } = useMenu({
 		filterUnShowRoute: false
 	});
-
 	/** 递归树生成权限路由表 */
 	const newRoutes = initRoutes(menu);
 	const routes: IRoute[] = [...getWhiteRoutes(), ...getBaseRoutes(newRoutes)];
