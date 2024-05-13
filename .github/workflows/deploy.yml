@@ -16,7 +16,7 @@ jobs:
         run: npm install -g pnpm
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm # 修改为 pnpm 缓存
@@ -28,7 +28,7 @@ jobs:
         run: pnpm run build # 使用 pnpm 进行构建
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist
