@@ -10,7 +10,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "ROUTE",
 		show: true,
-		parentPermissionId: null
+		parentPermissionId: null,
+		closable: false
 	},
 	{
 		permissionId: "1-1",
@@ -19,7 +20,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "BUTTON",
 		show: true,
-		parentPermissionId: "1"
+		parentPermissionId: "1",
+		closable: true
 	},
 	{
 		permissionId: "2",
@@ -28,7 +30,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "ROUTE",
 		show: true,
-		parentPermissionId: null
+		parentPermissionId: null,
+		closable: true
 	},
 	{
 		permissionId: "2-1",
@@ -37,7 +40,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "ROUTE",
 		show: false,
-		parentPermissionId: "2"
+		parentPermissionId: "2",
+		closable: true
 	},
 	{
 		permissionId: "2-2",
@@ -46,7 +50,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "ROUTE",
 		show: true,
-		parentPermissionId: "2"
+		parentPermissionId: "2",
+		closable: true
 	},
 	{
 		permissionId: "2-2-1",
@@ -55,7 +60,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "ROUTE",
 		show: true,
-		parentPermissionId: "2-2"
+		parentPermissionId: "2-2",
+		closable: true
 	},
 	{
 		permissionId: "2-2-1-1",
@@ -64,7 +70,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "BUTTON",
 		show: true,
-		parentPermissionId: "2-2-1"
+		parentPermissionId: "2-2-1",
+		closable: true
 	},
 	{
 		permissionId: "2-1-1",
@@ -73,7 +80,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "BUTTON",
 		show: true,
-		parentPermissionId: "2-1"
+		parentPermissionId: "2-1",
+		closable: true
 	},
 	{
 		permissionId: "2-1-2",
@@ -82,7 +90,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "BUTTON",
 		show: true,
-		parentPermissionId: "2-1"
+		parentPermissionId: "2-1",
+		closable: true
 	},
 	{
 		permissionId: "3",
@@ -91,7 +100,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "ROUTE",
 		show: true,
-		parentPermissionId: null
+		parentPermissionId: null,
+		closable: true
 	},
 	{
 		permissionId: "3-1",
@@ -100,7 +110,8 @@ const permission: IPermission[] = [
 		description: "string",
 		type: "ROUTE",
 		show: true,
-		parentPermissionId: "3"
+		parentPermissionId: "3",
+		closable: true
 	}
 ];
 

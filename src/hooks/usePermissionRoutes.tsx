@@ -68,7 +68,8 @@ const getRouteChildren = (parentNode: TPermissionTreeNode | null, node: TPermiss
 									{lazyLoad(formatterUrl(url))}
 								</PageAppraisal>
 							</RouteAppraisal>
-						)
+						),
+						meta: { title: node.permissionName, closable: node.closable }
 					}
 				];
 			} else {
@@ -85,11 +86,17 @@ const initRoutes = (list: TPermissionTreeNode[], parentNode: TPermissionTreeNode
 		return {
 			path: getRoutePath(parentNode, node),
 			element: getRouteElement(parentNode, node),
-			children: getRouteChildren(parentNode, node)
+			children: getRouteChildren(parentNode, node),
+			meta: { title: node.permissionName, closable: node.closable }
 		};
 	});
 };
 
+export interface IMeta {
+	url: string;
+	children: IMeta[];
+	meta: Record<string, any>;
+}
 export default function () {
 	const { menu } = useMenu({
 		filterUnShowRoute: false
@@ -97,7 +104,37 @@ export default function () {
 	/** 递归树生成权限路由表 */
 	const newRoutes = initRoutes(menu);
 	const routes: IRoute[] = [...getWhiteRoutes(), ...getBaseRoutes(newRoutes)];
+
+	/** 新生成的routes包含了一些自定义的路由，重新将这些路由拼接一下完整的路径 */
+	const getTreeMetas = (tree: IRoute[], parentNode: IRoute | null = null): IMeta[] => {
+		return tree.map(item => {
+			/**  404路由直接返回子 */
+			if (item.path.includes("*")) return { url: item.children![0].path, children: [], meta: item.children![0].meta || {} };
+
+			const url = parentNode ? `${parentNode.path + (item.path ? "/" + item.path : "")}` : item.path;
+			const children = getTreeMetas(item.children || [], { ...item, path: url });
+			const curNode = { url, children, meta: item.meta || {} };
+			return curNode;
+		});
+	};
+
+	/** 取最后一级 */
+	const getPagesMetas = (metas: IMeta[]) => {
+		const pageMetas: IMeta[] = [];
+
+		metas.forEach(item => {
+			if (item.children && item.children.length) {
+				pageMetas.push(...getPagesMetas(item.children));
+			} else {
+				pageMetas.push({ meta: item.meta, url: item.url, children: [] });
+			}
+		});
+		return pageMetas;
+	};
+
+	const pageMetas = getPagesMetas(getTreeMetas(routes));
 	return {
-		routes
+		routes,
+		pageMetas
 	};
 }

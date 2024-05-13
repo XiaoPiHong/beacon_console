@@ -17,4 +17,5 @@ export interface IPermission {
 	type: "ROUTE" | "BUTTON";
 	show: boolean /** 是否显示路由 */;
 	parentPermissionId: string | null /**null为顶级 */;
+	closable: boolean /** 是否可关闭tab */;
 }

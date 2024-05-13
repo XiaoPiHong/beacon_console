@@ -15,6 +15,7 @@ export interface IRoute {
 	path: string;
 	element: JSX.Element;
 	children?: IRoute[];
+	meta?: Record<string, any>;
 }
 
 const modules = import.meta.glob("../views/**/*.tsx");
@@ -92,7 +93,8 @@ export const getWhiteRoutes = (): Array<IRoute> => {
 			children: [
 				{
 					path: "userManage",
-					element: <RouteAppraisal>{lazyLoad("user/userManage")}</RouteAppraisal>
+					element: <RouteAppraisal>{lazyLoad("user/userManage")}</RouteAppraisal>,
+					meta: { title: "用户管理", closable: true }
 				}
 			]
 		}
@@ -119,7 +121,8 @@ export const getBaseRoutes = (newRoutes: Array<IRoute>): Array<IRoute> => {
 						<RouteAppraisal>
 							<Home />
 						</RouteAppraisal>
-					)
+					),
+					meta: { title: "首页", closable: false }
 				}
 			]
 		},
@@ -129,7 +132,8 @@ export const getBaseRoutes = (newRoutes: Array<IRoute>): Array<IRoute> => {
 			children: [
 				{
 					path: "*",
-					element: <RouteAppraisal>{lazyLoad("error", { type: 404 })}</RouteAppraisal>
+					element: <RouteAppraisal>{lazyLoad("error", { type: 404 })}</RouteAppraisal>,
+					meta: { title: "错误页", closable: true }
 				}
 			]
 		}

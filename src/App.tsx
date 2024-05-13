@@ -1,13 +1,13 @@
 import { useRoutes } from "react-router-dom";
 import usePermissionRoutes from "@/hooks/usePermissionRoutes";
+import { RouterProvider } from "@/hooks/useRouterContext";
 
 const App = () => {
-	const { routes } = usePermissionRoutes();
-	console.log("App render", routes);
+	const { routes, pageMetas } = usePermissionRoutes();
 
 	// 根据路由表生成对应的路由规则
 	const element = useRoutes(routes);
-	return element;
+	return <RouterProvider pageMetas={pageMetas}>{element}</RouterProvider>;
 };
 
 export default App;
