@@ -1,25 +1,28 @@
-import { connect } from "react-redux";
-import { IStoreState } from "@/store/types";
 import { Menu } from "antd";
 import useMenu from "@/hooks/useMenu";
-import { useNavigate } from "react-router-dom";
-interface IMenuProps {
-	permission: IStoreState["user"]["permission"];
-}
+import { useNavigate, useLocation, matchPath } from "react-router-dom";
+import { useRouter } from "@/hooks/useRouterContext";
 
-const HeaderMenu = ({ permission }: IMenuProps) => {
+const HeaderMenu = () => {
+	console.log("render menu");
 	const navigate = useNavigate();
-
+	const location = useLocation();
+	const { pageMetas } = useRouter();
 	const { menu } = useMenu({
 		formatNode: ({ permissionId, url, permissionName, children }) => {
 			return {
-				key: permissionId,
+				key: url,
 				label: permissionName,
 				url: url,
 				children: children.length ? children : undefined
 			};
 		}
 	});
+
+	const getCurItem = () => {
+		const curRoute = pageMetas.find(item => matchPath(item.url, location.pathname))!;
+		return curRoute;
+	};
 
 	const onSelectMenu = (e: any) => {
 		const {
@@ -28,9 +31,7 @@ const HeaderMenu = ({ permission }: IMenuProps) => {
 		navigate(url);
 	};
 
-	return <Menu id="menu" onSelect={onSelectMenu} mode="horizontal" items={menu} />;
+	return <Menu id="menu" selectedKeys={[getCurItem().url]} onSelect={onSelectMenu} mode="horizontal" items={menu} />;
 };
 
-export default connect((state: IStoreState) => ({
-	permission: state.user.permission
-}))(HeaderMenu);
+export default HeaderMenu;

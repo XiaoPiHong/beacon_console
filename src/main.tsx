@@ -1,3 +1,4 @@
+// import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom"; // 使用历史模式路由实现跳转
 import { Provider } from "react-redux";
@@ -7,6 +8,7 @@ import { ThemeProvider } from "@/hooks/useTheme";
 import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+	// <React.StrictMode>
 	<ThemeProvider>
 		<Provider store={store}>
 			<BrowserRouter>
@@ -14,4 +16,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 			</BrowserRouter>
 		</Provider>
 	</ThemeProvider>
+	// </React.StrictMode>
 );
