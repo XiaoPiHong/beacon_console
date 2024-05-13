@@ -7,6 +7,7 @@ const App = () => {
 
 	// 根据路由表生成对应的路由规则
 	const element = useRoutes(routes);
+
 	return <RouterProvider pageMetas={pageMetas}>{element}</RouterProvider>;
 };
 
