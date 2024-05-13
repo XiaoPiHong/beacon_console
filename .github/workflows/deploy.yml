@@ -3,22 +3,21 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - main # 可以根据你的需要修改触发条件
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Build
-        run: pnpm run build
-
+        run: npm run build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
