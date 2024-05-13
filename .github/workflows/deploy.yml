@@ -14,13 +14,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: npm
+          cache: pnpm # 修改为 pnpm 缓存
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install # 使用 pnpm 安装依赖
 
       - name: Build
-        run: npm run build
+        run: pnpm run build # 使用 pnpm 进行构建
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
