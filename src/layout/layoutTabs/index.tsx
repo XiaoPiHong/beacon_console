@@ -7,7 +7,6 @@ import { IStoreState } from "@/store/types";
 import { IMeta } from "@/hooks/usePermissionRoutes";
 
 const LayoutTabs = () => {
-	console.log("render tabs");
 	const navigate = useNavigate();
 	const symbolStr = Symbol("tab");
 	const location = useLocation();

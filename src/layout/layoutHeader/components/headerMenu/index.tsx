@@ -4,8 +4,6 @@ import { useNavigate, useLocation, matchPath } from "react-router-dom";
 import { useRouter } from "@/hooks/useRouterContext";
 
 const HeaderMenu = () => {
-	console.log("render menu");
-
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { pageMetas } = useRouter();
