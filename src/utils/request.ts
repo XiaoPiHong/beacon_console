@@ -4,7 +4,7 @@ import _ from "lodash-es";
 import * as loadUtil from "@/utils/load";
 import * as utilsStorage from "@/utils/storage";
 
-const { VITE_BASE_URL } = import.meta.env;
+const { VITE_BASE_API_URL } = import.meta.env;
 
 /**
  * 请求方式 Enum
@@ -71,7 +71,7 @@ function request(options: IRequestOptions) {
 			break;
 	}
 
-	return fetch(`${VITE_BASE_URL}${url}${query ? `?${qs.stringify(query)}` : ""}`, {
+	return fetch(`${VITE_BASE_API_URL}${url}${query ? `?${qs.stringify(query)}` : ""}`, {
 		method,
 		headers,
 		body,

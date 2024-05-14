@@ -25,7 +25,7 @@ jobs:
         run: pnpm install # 使用 pnpm 安装依赖
 
       - name: Build
-        run: pnpm run build # 使用 pnpm 进行构建
+        run: pnpm run build:gh-pages # 使用 pnpm 进行构建
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

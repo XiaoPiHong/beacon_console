@@ -8,6 +8,7 @@
 		"build": "tsc && vite build",
 		"build:test": "tsc && vite build --mode test",
 		"build:prod": "tsc && vite build --mode production",
+		"build:gh-pages": "tsc && vite build --mode gh-pages",
 		"preview": "vite preview",
 		"lint:create": "eslint --init",
 		"lint": "eslint \"src/**/*.{js,tsx,ts}\" --fix",
