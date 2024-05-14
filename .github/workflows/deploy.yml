@@ -24,26 +24,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install # 使用 pnpm 安装依赖
 
+      - name: Install fs-extra
+        run: pnpm install fs-extra # 安装 fs-extra 依赖
+
       - name: Build
         run: pnpm run build:gh-pages # 使用 pnpm 进行构建
 
-      - name: Install fs-extra
-        run: pnpm add fs-extra # 临时安装 fs-extra 依赖
-
       - name: Copy index.html to 404.html
-        run: |
-          node -e "
-          const fs = require('fs-extra');
-          const path = require('path');
-          const source = path.join(__dirname, 'dist', 'index.html');
-          const destination = path.join(__dirname, 'dist', '404.html');
-          fs.copy(source, destination)
-            .then(() => console.log('index.html was copied to 404.html'))
-            .catch(err => {
-              console.error('Error copying index.html to 404.html:', err);
-              process.exit(1);
-            });
-          "
+        run: node copy-files.js # 使用 Node.js 脚本复制文件
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
