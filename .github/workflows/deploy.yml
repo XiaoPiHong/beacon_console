@@ -27,6 +27,9 @@ jobs:
       - name: Build
         run: pnpm run build:gh-pages # 使用 pnpm 进行构建
 
+      - name: Copy index.html to 404.html
+        run: cp dist/index.html dist/404.html # 复制并重命名文件
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
