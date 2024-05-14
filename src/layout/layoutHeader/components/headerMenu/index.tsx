@@ -5,6 +5,7 @@ import { useRouter } from "@/hooks/useRouterContext";
 
 const HeaderMenu = () => {
 	console.log("render menu");
+
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { pageMetas } = useRouter();
