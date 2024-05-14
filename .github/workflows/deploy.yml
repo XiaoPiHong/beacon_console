@@ -28,7 +28,13 @@ jobs:
         run: pnpm run build:gh-pages # 使用 pnpm 进行构建
 
       - name: Copy index.html to 404.html
-        run: cp dist/index.html dist/404.html # 复制并重命名文件
+        run: |
+          if [ -f dist/index.html ]; then
+            cp dist/index.html dist/404.html;
+          else
+            echo "index.html not found in dist directory";
+            exit 1;
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
