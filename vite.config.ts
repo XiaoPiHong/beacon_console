@@ -7,6 +7,7 @@ import eslintPlugin from "vite-plugin-eslint";
 export default defineConfig(configEnv => {
 	// 获取指定模式的环境变量
 	const { VITE_BASE } = loadEnv(configEnv.mode, process.cwd());
+	console.log(VITE_BASE);
 	return {
 		base: VITE_BASE,
 		plugins: [react(), eslintPlugin()],
