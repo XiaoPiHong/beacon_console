@@ -26,9 +26,3 @@ jobs:
 
       - name: Build
         run: pnpm run build # 使用 pnpm 进行构建
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
