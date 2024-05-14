@@ -7,11 +7,13 @@ import "@/assets/styles/index.less";
 import { ThemeProvider } from "@/hooks/useTheme";
 import App from "./App";
 
+const { VITE_ROUTER_BASENAME } = import.meta.env;
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	// <React.StrictMode>
 	<ThemeProvider>
 		<Provider store={store}>
-			<BrowserRouter>
+			<BrowserRouter basename={VITE_ROUTER_BASENAME}>
 				<App />
 			</BrowserRouter>
 		</Provider>
