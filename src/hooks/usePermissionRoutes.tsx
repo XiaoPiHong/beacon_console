@@ -119,22 +119,22 @@ export default function () {
 	};
 
 	/** 取最后一级 */
-	const getPagesMetas = (metas: IMeta[]) => {
-		const pageMetas: IMeta[] = [];
+	const getRouterMetas = (metas: IMeta[]) => {
+		const routerMetas: IMeta[] = [];
 
 		metas.forEach(item => {
 			if (item.children && item.children.length) {
-				pageMetas.push(...getPagesMetas(item.children));
+				routerMetas.push(...getRouterMetas(item.children));
 			} else {
-				pageMetas.push({ meta: item.meta, url: item.url, children: [] });
+				routerMetas.push({ meta: item.meta, url: item.url, children: [] });
 			}
 		});
-		return pageMetas;
+		return routerMetas;
 	};
 
-	const pageMetas = getPagesMetas(getTreeMetas(routes));
+	const routerMetas = getRouterMetas(getTreeMetas(routes));
 	return {
 		routes,
-		pageMetas
+		routerMetas
 	};
 }

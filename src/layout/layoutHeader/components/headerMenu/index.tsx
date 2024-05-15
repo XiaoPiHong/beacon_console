@@ -1,12 +1,12 @@
 import { Menu } from "antd";
 import useMenu from "@/hooks/useMenu";
 import { useNavigate, useLocation, matchPath } from "react-router-dom";
-import { useRouter } from "@/hooks/useRouterContext";
+import { useRouterMetas } from "@/hooks/useRouterMetas";
 
 const HeaderMenu = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { pageMetas } = useRouter();
+	const { routerMetas } = useRouterMetas();
 	const { menu } = useMenu({
 		formatNode: ({ permissionId, url, permissionName, children }) => {
 			return {
@@ -19,7 +19,7 @@ const HeaderMenu = () => {
 	});
 
 	const getCurItem = () => {
-		const curRoute = pageMetas.find(item => matchPath(item.url, location.pathname))!;
+		const curRoute = routerMetas.find(item => matchPath(item.url, location.pathname))!;
 		return curRoute;
 	};
 

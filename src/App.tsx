@@ -1,10 +1,10 @@
 import usePermissionRoutes from "@/hooks/usePermissionRoutes";
-import { RouterProvider } from "@/hooks/useRouterContext";
+import { RouterMetasProvider } from "@/hooks/useRouterMetas";
 
 const App = () => {
-	const { routes, pageMetas } = usePermissionRoutes();
+	const { routes, routerMetas } = usePermissionRoutes();
 
-	return <RouterProvider pageMetas={pageMetas} routes={routes}></RouterProvider>;
+	return <RouterMetasProvider routerMetas={routerMetas} routes={routes}></RouterMetasProvider>;
 };
 
 export default App;

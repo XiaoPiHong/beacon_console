@@ -1,7 +1,7 @@
 import { Tabs } from "antd";
 import { useEffect, useRef } from "react";
 import { useLocation, matchPath, useNavigate } from "react-router-dom";
-import { useRouter } from "@/hooks/useRouterContext";
+import { useRouterMetas } from "@/hooks/useRouterMetas";
 import { shallowEqual, useSelector } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { IMeta } from "@/hooks/usePermissionRoutes";
@@ -10,7 +10,7 @@ const LayoutTabs = () => {
 	const navigate = useNavigate();
 	const symbolStr = Symbol("tab");
 	const location = useLocation();
-	const { pageMetas } = useRouter();
+	const { routerMetas } = useRouterMetas();
 	const { permission } = useSelector((state: IStoreState) => ({ permission: state.user.permission }), shallowEqual);
 	let activeKey = `${symbolStr.description}${"/home"}`;
 	const tabs = useRef<Map<string, IMeta>>(
@@ -31,7 +31,7 @@ const LayoutTabs = () => {
 		if (permission.length) {
 			/** matchPath完全匹配路由 */
 			/** 匹配不上的都会走到错误页的路由，所以curRoute一定会匹配上一个 */
-			const curRoute = pageMetas.find(item => matchPath(item.url, location.pathname))!;
+			const curRoute = routerMetas.find(item => matchPath(item.url, location.pathname))!;
 			const key = `${symbolStr.description}${location.pathname}`;
 			tabs.current.set(key, curRoute);
 			activeKey = key;
