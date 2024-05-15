@@ -14,6 +14,9 @@ dependencies:
   dayjs:
     specifier: ^1.11.10
     version: 1.11.10
+  keepalive-for-react:
+    specifier: ^2.0.7
+    version: 2.0.7(react-dom@18.2.0)(react@18.2.0)
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
@@ -3557,6 +3560,16 @@ packages:
       object.assign: 4.1.5
       object.values: 1.2.0
     dev: true
+
+  /keepalive-for-react@2.0.7(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-3rbQBWX2yP68lKHh3MhAwm5uUN3lom9tv+m+SIOTsUjQwSErK+wVZrofVU+7iTaPNb6QWEbFevB9amMaQowdZQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}

@@ -1,4 +1,4 @@
-const LayoutMain = ({ children }: { children: JSX.Element }) => {
+const LayoutMain = ({ children }: { children: React.ReactElement<any, string | React.JSXElementConstructor<any>> | null }) => {
 	return children;
 };
 export default LayoutMain;

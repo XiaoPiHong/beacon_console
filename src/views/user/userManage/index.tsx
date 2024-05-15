@@ -1,5 +1,13 @@
+import { Input } from "antd";
+
 const UserManage = () => {
-	return <div>用户管理</div>;
+	console.log("用户管理");
+	return (
+		<div>
+			<Input />
+			用户管理
+		</div>
+	);
 };
 
 export default UserManage;
