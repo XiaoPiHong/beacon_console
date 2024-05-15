@@ -1,5 +1,13 @@
+import { Input } from "antd";
+
 const Department = () => {
-	return <div>部门管理</div>;
+	console.log("部门管理");
+	return (
+		<div>
+			<Input />
+			部门管理
+		</div>
+	);
 };
 
 export default Department;
