@@ -30,10 +30,10 @@ const Layout = () => {
 	return (
 		<div className={style["app-container"]}>
 			<div className={style["app-container__header"]}>
-				<LayoutHeader></LayoutHeader>
+				<LayoutHeader />
 			</div>
 			<div className={style["app-container__tabs"]}>
-				<LayoutTabs></LayoutTabs>
+				<LayoutTabs aliveRef={keepAliveRef} />
 			</div>
 			<div className={style["app-container__main"]}>
 				<LayoutMain>

@@ -1,12 +1,13 @@
 import { Tabs } from "antd";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, MutableRefObject } from "react";
 import { useLocation, matchPath, useNavigate } from "react-router-dom";
 import { useRouterMetas } from "@/hooks/useRouterMetas";
 import { shallowEqual, useSelector } from "react-redux";
 import { IStoreState } from "@/store/types";
 import { IMeta } from "@/hooks/usePermissionRoutes";
+import { KeepAliveRef } from "keepalive-for-react";
 
-const LayoutTabs = () => {
+const LayoutTabs = ({ aliveRef }: { aliveRef: MutableRefObject<KeepAliveRef | undefined> }) => {
 	const navigate = useNavigate();
 	const symbolStr = Symbol("tab");
 	const location = useLocation();
@@ -45,6 +46,8 @@ const LayoutTabs = () => {
 	const onRemoveTabs = (targetKey: React.MouseEvent | React.KeyboardEvent | string, action: "add" | "remove") => {
 		if (action === "remove") {
 			tabs.current.delete(targetKey as string);
+			/** 清除一下keepalive缓存 */
+			aliveRef.current?.removeCache((targetKey as string).split(`${symbolStr.description}`)[1]);
 
 			/** 删除后选中最后一个 */
 			const all = Array.from(tabs.current);
