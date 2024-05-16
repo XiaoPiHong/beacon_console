@@ -82,22 +82,22 @@ export const getWhiteRoutes = (): Array<IRoute> => {
 		{
 			path: "/login",
 			element: utilsStorage.local.token.get() ? <Navigate replace to="/home" /> : <Login />
-		},
+		}
 		// {
 		// 	path: "/register",
 		// 	element: <Register />
 		// },
-		{
-			path: "/user",
-			element: <Layout />,
-			children: [
-				{
-					path: "userManage",
-					element: <RouteAppraisal>{lazyLoad("user/userManage")}</RouteAppraisal>,
-					meta: { title: "用户管理", closable: true }
-				}
-			]
-		}
+		// {
+		// 	path: "/user",
+		// 	element: <Layout />,
+		// 	children: [
+		// 		{
+		// 			path: "userManage",
+		// 			element: <RouteAppraisal>{lazyLoad("user/userManage")}</RouteAppraisal>,
+		// 			meta: { title: "用户管理", closable: true }
+		// 		}
+		// 	]
+		// }
 	];
 };
 
