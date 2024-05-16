@@ -21,6 +21,9 @@ const Layout = () => {
 	}, [routes]);
 
 	const key = useMemo(() => {
+		/** 首次让其不要触发,否者KeepAlive销毁会触发多次RouteAppraisal校验（多次请求） */
+		/** 这样KeepAlive就会挂载2次，key为1时候一次（此时routes为基本的路由），key为2的时候一次（此时routes是异步获取的路由） */
+		if (refresh === 0) return 1;
 		return refresh;
 	}, [refresh]);
 
