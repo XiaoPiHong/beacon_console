@@ -3,14 +3,26 @@ import style from "./index.module.less";
 import LayoutHeader from "./layoutHeader";
 import LayoutTabs from "./layoutTabs";
 import LayoutMain from "./layoutMain";
-import { useRef } from "react";
-import KeepAlive from "keepalive-for-react";
+import KeepAlive, { useKeepaliveRef } from "keepalive-for-react";
+import { useRouterMetas } from "@/hooks/useRouterMetas";
+import { useEffect, useState, useMemo } from "react";
 
 const Layout = () => {
 	console.log("layout");
-	let outlet = useOutlet();
-	const keepAliveRef = useRef(null);
+	const { routes } = useRouterMetas();
 	const { pathname } = useLocation();
+	const keepAliveRef = useKeepaliveRef();
+	const [refresh, setRefresh] = useState(0);
+	const outlet = useOutlet();
+
+	useEffect(() => {
+		/** 路由表每改变一次都触发key值更改，重新挂载KeepAlive */
+		setRefresh(refresh + 1);
+	}, [routes]);
+
+	const key = useMemo(() => {
+		return refresh;
+	}, [refresh]);
 
 	return (
 		<div className={style["app-container"]}>
@@ -22,7 +34,7 @@ const Layout = () => {
 			</div>
 			<div className={style["app-container__main"]}>
 				<LayoutMain>
-					<KeepAlive aliveRef={keepAliveRef} activeName={pathname} cache={true}>
+					<KeepAlive key={key} aliveRef={keepAliveRef} activeName={pathname} cache={true}>
 						{outlet}
 					</KeepAlive>
 				</LayoutMain>
