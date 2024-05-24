@@ -3,7 +3,7 @@ import { useState, useRef } from "react";
 // import * as utilsStorage from "@/utils/storage";
 import { useNavigate } from "react-router-dom";
 import { getLoginFormProps } from "../indexConfig";
-import { ReactForm, useReactForm, IReactFormActionType } from "xph-form";
+import { XphForm, useXphForm, IXphFormActionType } from "xph-form";
 
 /** store exports */
 import { connect } from "react-redux";
@@ -47,12 +47,12 @@ const LoginForm = (props: ILoginFormProps) => {
 		});
 	};
 	console.log("=======================================parent render");
-	const [register, methods] = useReactForm();
+	const [register, methods] = useXphForm();
 	const formProps = getLoginFormProps({ methods, loading, onClickLoginBtn });
 
-	const reactFormRef = useRef<IReactFormActionType>();
+	const reactFormRef = useRef<IXphFormActionType>();
 
-	return <ReactForm register={register} ref={reactFormRef} {...formProps}></ReactForm>;
+	return <XphForm register={register} ref={reactFormRef} {...formProps}></XphForm>;
 };
 
 // 使用 connect()() 创建并暴露容器组件

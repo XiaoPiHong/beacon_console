@@ -30,7 +30,7 @@
 		"react-router-dom": "^6.17.0",
 		"redux": "^4.2.1",
 		"redux-promise": "^0.6.0",
-		"xph-form": "^1.2.2"
+		"xph-form": "^1.3.6"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.5.1",

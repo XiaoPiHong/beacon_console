@@ -1,8 +1,8 @@
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Checkbox, Button } from "antd";
-import { IReactFormProps } from "xph-form";
+import { IXphFormProps } from "xph-form";
 
-export const getLoginFormProps = ({ methods, loading, onClickLoginBtn }): IReactFormProps => {
+export const getLoginFormProps = ({ methods, loading, onClickLoginBtn }): IXphFormProps => {
 	return {
 		items: [
 			{
@@ -64,7 +64,7 @@ export const getLoginFormProps = ({ methods, loading, onClickLoginBtn }): IReact
 	};
 };
 
-export const getRegisterFormProps = ({ methods, loading, onClickRegisterBtn }) => {
+export const getRegisterFormProps = ({ methods, loading, onClickRegisterBtn }): IXphFormProps => {
 	return {
 		items: [
 			{

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { getRegisterFormProps } from "../indexConfig";
-import { ReactForm, useReactForm } from "xph-form";
+import { XphForm, useXphForm } from "xph-form";
 
 /**
  * 注册表单
  */
 export default function () {
 	const [loading, setLoading] = useState(false);
-	const [register, methods] = useReactForm();
+	const [register, methods] = useXphForm();
 
 	const onClickRegisterBtn = () => {
 		setLoading(true);
@@ -16,5 +16,5 @@ export default function () {
 
 	const formProps = getRegisterFormProps({ methods, loading, onClickRegisterBtn });
 
-	return <ReactForm register={register} {...formProps}></ReactForm>;
+	return <XphForm register={register} {...formProps}></XphForm>;
 }
