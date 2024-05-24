@@ -1,1 +1,0 @@
-import{j as o,a as s}from"./index-7e9753c2.js";import"./vendor-13d319d9.js";const t={403:"抱歉，你无权访问该页面",404:"页面不存在",500:"服务器出小差了"},p=r=>o("div",{children:s("p",{children:["错误页：",t[r.type]]})});export{p as default};
