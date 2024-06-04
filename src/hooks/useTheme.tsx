@@ -18,6 +18,7 @@ const defaultTheme = {
 	token: {
 		...baseSystemThemeToken,
 		colorPrimary: rootStyles.getPropertyValue("--color-primary"),
+		colorLink: rootStyles.getPropertyValue("--color-link"),
 
 		menuColor: rootStyles.getPropertyValue("--menu-color"),
 		menuHoverBg: rootStyles.getPropertyValue("--menu-hover-bg")
@@ -27,6 +28,8 @@ const defaultTheme = {
 interface ITheme {
 	token: {
 		colorPrimary: string;
+		colorLink: string;
+
 		menuColor: string;
 		menuHoverBg: string;
 	};
