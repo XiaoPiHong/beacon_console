@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getRegisterFormProps } from "../indexConfig";
-import { XphForm, useXphForm } from "xph-form";
+import { XphForm, useXphForm } from "xph-crud";
 
 /**
  * 注册表单

@@ -14,4 +14,6 @@
 
 ### 6、多页面缓存（KeepAlive）
 
-### 7、可配置表单（xph-form）
+### 7、可配置表单（XphForm）
+
+### 8、可配置列表（XphTable）

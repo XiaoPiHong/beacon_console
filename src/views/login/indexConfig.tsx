@@ -1,6 +1,6 @@
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Checkbox, Button } from "antd";
-import { IXphFormProps } from "xph-form";
+import { IXphFormProps } from "xph-crud";
 
 export const getLoginFormProps = ({ methods, loading, onClickLoginBtn }): IXphFormProps => {
 	return {

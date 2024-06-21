@@ -3,7 +3,7 @@ import { useState, useRef } from "react";
 // import * as utilsStorage from "@/utils/storage";
 import { useNavigate } from "react-router-dom";
 import { getLoginFormProps } from "../indexConfig";
-import { XphForm, useXphForm, IXphFormActionType } from "xph-form";
+import { XphForm, useXphForm, IXphFormActionType } from "xph-crud";
 
 /** store exports */
 import { connect } from "react-redux";
@@ -50,7 +50,7 @@ const LoginForm = (props: ILoginFormProps) => {
 	const [register, methods] = useXphForm();
 	const formProps = getLoginFormProps({ methods, loading, onClickLoginBtn });
 
-	const reactFormRef = useRef<IXphFormActionType>();
+	const reactFormRef = useRef<IXphFormActionType>(null);
 
 	return <XphForm register={register} ref={reactFormRef} {...formProps}></XphForm>;
 };
