@@ -6,6 +6,7 @@ import store from "@/store/index";
 import "@/assets/styles/index.less";
 import { ThemeProvider } from "@/hooks/useTheme";
 import App from "./App";
+import { XphExtendCompPropsProvider } from "xph-crud";
 
 const { VITE_ROUTER_BASENAME } = import.meta.env;
 
@@ -14,7 +15,18 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<ThemeProvider>
 		<Provider store={store}>
 			<BrowserRouter basename={VITE_ROUTER_BASENAME}>
-				<App />
+				<XphExtendCompPropsProvider
+					value={{
+						extendProps: {
+							/** 弹窗默认都放在.cache-component中 */
+							dialog: {
+								getPopperContainer: () => document.getElementsByClassName("cache-component")[0] as HTMLElement
+							}
+						}
+					}}
+				>
+					<App />
+				</XphExtendCompPropsProvider>
 			</BrowserRouter>
 		</Provider>
 	</ThemeProvider>
