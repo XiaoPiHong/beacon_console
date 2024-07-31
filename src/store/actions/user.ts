@@ -1,6 +1,7 @@
 import { IActionFn } from "../types";
 import { ActionTypeEnums, TUserInfo, IPermission } from "../constant/user";
 import * as utilsStorage from "@/utils/storage";
+import * as apisAuth from "@/apis/auth";
 
 const permission: IPermission[] = [
 	{
@@ -123,13 +124,25 @@ const testApi = (): Promise<any> => {
 	});
 };
 
-const testLoginApi = (): Promise<any> => {
+const testLoginApi = (params?: any): Promise<any> => {
 	return new Promise(resolve => {
 		setTimeout(() => {
 			resolve({
 				data: {
-					user: { name: "xxx", password: "xxx" },
-					token: "token"
+					user: {
+						id: "6",
+						username: "xph-admin",
+						mobile: "18028592715",
+						email: "xph@qq.com",
+						enabled: true,
+						name: "超级管理员",
+						sex: "MALE",
+						birthday: "2020-02-02 00:00:00",
+						createdAt: "2024-07-27 17:27:24",
+						updatedAt: "2024-07-27 17:27:24"
+					},
+					accessToken: "xxxx",
+					refreshToken: "xxxx"
 				}
 			});
 		}, 300);
@@ -141,7 +154,18 @@ const testGetUserApi = (): Promise<any> => {
 		setTimeout(() => {
 			resolve({
 				data: {
-					user: { name: "xxx", password: "xxx" }
+					user: {
+						id: "6",
+						username: "xph-admin",
+						mobile: "18028592715",
+						email: "xph@qq.com",
+						enabled: true,
+						name: "超级管理员",
+						sex: "MALE",
+						birthday: "2020-02-02 00:00:00",
+						createdAt: "2024-07-27 17:27:24",
+						updatedAt: "2024-07-27 17:27:24"
+					}
 				}
 			});
 		}, 300);
@@ -162,23 +186,22 @@ export const setPermission: IActionFn<IPermission[], ActionTypeEnums> = permissi
 });
 /** 提供给页面使用end */
 
-/** 登录 */
-export const login = () => {
-	return new Promise(resolve => {
-		testLoginApi().then(async () => {
-			const { data } = await testLoginApi();
-			console.log(data);
-			utilsStorage.local.token.set(data.token);
-			utilsStorage.local.user.set(data.user);
-			resolve({ type: ActionTypeEnums.LOGIN, payload: { userInfo: data.user, permission } });
-		});
+/** 用户名登录 */
+export const loginByUsername = (params?: any) => {
+	// return apisAuth.postSignInByUsername(params).then(({ data }) => {
+	return testLoginApi(params).then(async ({ data }) => {
+		utilsStorage.local.accessToken.set(data.accessToken);
+		utilsStorage.local.refreshToken.set(data.refreshToken);
+		utilsStorage.local.user.set(data.user);
+		return { type: ActionTypeEnums.LOGIN, payload: { userInfo: data.user, permission } };
 	});
 };
 
 /** 退出登录 */
 export const loginOut = async () => {
 	await testApi();
-	utilsStorage.local.token.remove();
+	utilsStorage.local.accessToken.remove();
+	utilsStorage.local.refreshToken.remove();
 	utilsStorage.local.user.remove();
 	return { type: ActionTypeEnums.SET_USERINFO, payload: null };
 };
@@ -186,7 +209,6 @@ export const loginOut = async () => {
 /** 获取用户信息 */
 export const getUserInfo = async () => {
 	const { data } = await testGetUserApi();
-	console.log(data);
 	utilsStorage.local.user.set(data.user);
 	return { type: ActionTypeEnums.SET_USERINFO, payload: data.user };
 };

@@ -7,9 +7,9 @@ export const postAuthSignup = data =>
 		data
 	});
 
-/** 登录 */
-export const postAuthSignin = data =>
+/** 用户名登录 */
+export const postSignInByUsername = data =>
 	http.post({
-		url: "/auth/signin",
+		url: "/auth/sign-in-by-username",
 		data
 	});

@@ -5,8 +5,16 @@ export const enum ActionTypeEnums {
 }
 
 export type TUserInfo = {
+	id: string;
+	username: string;
+	mobile: string;
+	email: string;
+	enabled: boolean;
 	name: string;
-	password: string;
+	sex: string;
+	birthday: string;
+	createdAt: string;
+	updatedAt: string;
 } | null;
 
 export interface IPermission {

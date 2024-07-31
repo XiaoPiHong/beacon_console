@@ -55,7 +55,7 @@ function request(options: IRequestOptions) {
 		_.merge(
 			{
 				"Content-Type": ContentTypeEnum.APPLICATION_JSON,
-				authorization: utilsStorage.local.token.get() || ""
+				authorization: utilsStorage.local.accessToken.get() || ""
 			},
 			headers
 		)

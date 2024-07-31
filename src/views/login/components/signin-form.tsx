@@ -1,18 +1,18 @@
 import { useState, useRef } from "react";
-// import * as apisAuth from "@/apis/auth";
-// import * as utilsStorage from "@/utils/storage";
 import { useNavigate } from "react-router-dom";
 import { getLoginFormProps } from "../indexConfig";
 import { XphForm, useXphForm, IXphFormActionType } from "xph-crud";
+import cryptoJS from "crypto-js";
+import cryptoRandomString from "crypto-random-string";
 
 /** store exports */
 import { connect } from "react-redux";
 import { IStoreState } from "@/store/types";
-import { login } from "@/store/actions/user";
+import { loginByUsername } from "@/store/actions/user";
 
 interface ILoginFormProps {
 	user: IStoreState["user"];
-	login: (args?: any) => Promise<any>;
+	loginByUsername: (args?: any) => Promise<any>;
 }
 
 /**
@@ -23,21 +23,20 @@ const LoginForm = (props: ILoginFormProps) => {
 	const [loading, setLoading] = useState(false);
 
 	const onClickLoginBtn = () => {
-		methods.validator().then(values => {
-			console.log(values);
+		methods.validator().then(({ password, username }) => {
 			setLoading(true);
-			// apisAuth
-			// 	.postAuthSignin(values)
-			// 	.then(res => {
-			// 		const data = res.data;
-			// 		utilsStorage.local.token.set(data.token);
-			// 		utilsStorage.local.user.set(data.user);
-			// 	})
-			// 	.finally(() => {
-			// 		setLoading(false);
-			// 	});
+
+			const timestamp = Date.now().toString();
+			const nonceStr = cryptoRandomString({ length: 16, type: "alphanumeric" });
+			const signature = cryptoJS.MD5(`${nonceStr}${timestamp}${cryptoJS.MD5(password)}`).toString();
+
 			props
-				.login()
+				.loginByUsername({
+					username,
+					nonceStr,
+					timestamp,
+					signature
+				})
 				.then(() => {
 					navigate("/home");
 				})
@@ -46,7 +45,6 @@ const LoginForm = (props: ILoginFormProps) => {
 				});
 		});
 	};
-	console.log("=======================================parent render");
 	const [register, methods] = useXphForm();
 	const formProps = getLoginFormProps({ methods, loading, onClickLoginBtn });
 
@@ -60,5 +58,5 @@ export default connect(
 	(state: IStoreState) => ({
 		user: state.user
 	}),
-	{ login }
+	{ loginByUsername }
 )(LoginForm);

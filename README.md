@@ -17,3 +17,5 @@
 ### 7、可配置表单（XphForm）
 
 ### 8、可配置列表（XphTable）
+
+### 9、层叠弹窗（XphDialog）

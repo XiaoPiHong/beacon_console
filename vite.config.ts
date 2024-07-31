@@ -12,12 +12,12 @@ export default defineConfig(configEnv => {
 		plugins: [react(), eslintPlugin()],
 		resolve: { alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }] },
 		server: {
-			proxy: {
-				"/pms": {
-					target: "https://www.fastmock.site/mock/f18bce957e91793c339504b2f17b384e",
-					changeOrigin: true
-				}
-			}
+			// proxy: {
+			// 	"/api": {
+			// 		target: "https://www.fastmock.site/mock/f18bce957e91793c339504b2f17b384e",
+			// 		changeOrigin: true
+			// 	}
+			// }
 		},
 		build: {
 			rollupOptions: {

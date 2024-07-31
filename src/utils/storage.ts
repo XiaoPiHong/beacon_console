@@ -72,7 +72,8 @@ const createSessionStorage = createStore(sessionStorage);
  * 本地存储空间对象
  */
 export const local = {
-	token: createLocalStorage("token"),
+	accessToken: createLocalStorage("accessToken"),
+	refreshToken: createLocalStorage("refreshToken"),
 	user: createLocalStorage("user", FilterTypeEnum.JSON)
 };
 

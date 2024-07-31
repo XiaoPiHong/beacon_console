@@ -42,13 +42,13 @@ interface IRouteAppraisalProps {
  * @description 登录鉴权组件
  */
 export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
-	const token = utilsStorage.local.token.get();
+	const accessToken = utilsStorage.local.accessToken.get();
 
 	const { userInfo } = useSelector((state: IStoreState) => ({ userInfo: state.user.userInfo }), shallowEqual);
 	const dispatch = useDispatch();
-
 	const Module = lazy(async () => {
-		if (token && !userInfo) {
+		if (accessToken && !userInfo) {
+			console.log("触发了刷新");
 			await Promise.all([getUserInfo(), getPermission()])
 				.then(([_u, _p]) => {
 					dispatch(_u);
@@ -63,7 +63,7 @@ export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
 		}
 
 		return {
-			default: token ? () => children : () => <Navigate to="/login" />
+			default: accessToken ? () => children : () => <Navigate to="/login" />
 		};
 	});
 
@@ -81,7 +81,7 @@ export const getWhiteRoutes = (): Array<IRoute> => {
 	return [
 		{
 			path: "/login",
-			element: utilsStorage.local.token.get() ? <Navigate replace to="/home" /> : <Login />
+			element: utilsStorage.local.accessToken.get() ? <Navigate replace to="/home" /> : <Login />
 		}
 		// {
 		// 	path: "/register",
