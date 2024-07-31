@@ -45,8 +45,8 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0
       xph-crud:
-        specifier: ^0.0.5
-        version: 0.0.5(@ant-design/icons@5.3.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(antd@5.14.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ^0.0.6
+        version: 0.0.6(@ant-design/icons@5.3.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(antd@5.14.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@commitlint/cli':
         specifier: ^17.5.1
@@ -3255,8 +3255,8 @@ packages:
     resolution: {integrity: sha512-7KxauUdBmSdWnmpaGFg+ppNjKF8uNLry8LyzjauQDOVONfFLNKrKvQOxZ/VuTIcS/gge/YNahf5RIIQWTSarlg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
 
-  xph-crud@0.0.5:
-    resolution: {integrity: sha512-iUJpX511HThKGd/mygM3hriFu57ISVpDvqigCoLBT9le6WOlCBJtU/R3TGCLYKTRjIB5WdVTaesBam+1WLch7A==}
+  xph-crud@0.0.6:
+    resolution: {integrity: sha512-CNO4JpUQZCgTbVAXZIsQrwH4ERSALiwcajSpOLuaWQ8QwgbkrSG1KmtLDh2vgJMhgqFcJW0U1GZFX1NHK62ZCQ==}
     engines: {node: '>=16'}
     peerDependencies:
       '@ant-design/icons': 5.3.2
@@ -6822,7 +6822,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
 
-  xph-crud@0.0.5(@ant-design/icons@5.3.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(antd@5.14.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  xph-crud@0.0.6(@ant-design/icons@5.3.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(antd@5.14.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@ant-design/icons': 5.3.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       antd: 5.14.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
