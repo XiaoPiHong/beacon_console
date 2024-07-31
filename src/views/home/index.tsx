@@ -485,13 +485,15 @@ const Home = () => {
 	const xphTableRef = useRef<TXphTableActionType>(null);
 
 	return (
-		<XphTable<DataType>
-			ref={xphTableRef}
-			{...props}
-			onRowSelectionChange={(selectRowKeys, selectedRows) => {
-				console.log(selectRowKeys, selectedRows);
-			}}
-		/>
+		<section style={{ padding: "8px", height: "100%" }}>
+			<XphTable<DataType>
+				ref={xphTableRef}
+				{...props}
+				onRowSelectionChange={(selectRowKeys, selectedRows) => {
+					console.log(selectRowKeys, selectedRows);
+				}}
+			/>
+		</section>
 	);
 };
 export default Home;
