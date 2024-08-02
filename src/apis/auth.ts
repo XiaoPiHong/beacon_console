@@ -13,3 +13,8 @@ export const postSignInByUsername = data =>
 		url: "/auth/sign-in-by-username",
 		data
 	});
+
+/** 获取用户信息 */
+export const getUserInfo = () => {
+	return http.get({ url: "/auth/get-profile" });
+};

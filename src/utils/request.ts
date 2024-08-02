@@ -49,13 +49,14 @@ interface IRequestOptions {
  */
 function request(options: IRequestOptions) {
 	let { url, method, query, headers = {}, data = {} } = options;
+	const accessToken = utilsStorage.local.accessToken.get();
 	let body;
 
 	headers = new Headers(
 		_.merge(
 			{
 				"Content-Type": ContentTypeEnum.APPLICATION_JSON,
-				authorization: utilsStorage.local.accessToken.get() || ""
+				authorization: accessToken ? `Bearer ${accessToken}` : ""
 			},
 			headers
 		)
@@ -63,14 +64,18 @@ function request(options: IRequestOptions) {
 
 	switch (headers.get("Content-Type")) {
 		case ContentTypeEnum.APPLICATION_JSON:
-			body = JSON.stringify(data);
+			/** GET和HEAD没有请求体 */
+			if ([MethodEnum.POST, MethodEnum.PUT, MethodEnum.DELETE].includes(method)) {
+				body = JSON.stringify(data);
+			}
 			break;
 		case ContentTypeEnum.MULTIPART_FORM_DATA:
-			headers.delete("Content-Type"); // 删除使浏览器自动配置才能上传成功
-			body = qs.stringify(data); // 自动将 object 转 FormData
+			if ([MethodEnum.POST, MethodEnum.PUT, MethodEnum.DELETE].includes(method)) {
+				headers.delete("Content-Type"); // 删除使浏览器自动配置才能上传成功
+				body = qs.stringify(data); // 自动将 object 转 FormData
+			}
 			break;
 	}
-
 	return fetch(`${VITE_BASE_API_URL}${url}${query ? `?${qs.stringify(query)}` : ""}`, {
 		method,
 		headers,

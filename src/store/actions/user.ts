@@ -188,8 +188,8 @@ export const setPermission: IActionFn<IPermission[], ActionTypeEnums> = permissi
 
 /** 用户名登录 */
 export const loginByUsername = (params?: any) => {
-	// return apisAuth.postSignInByUsername(params).then(({ data }) => {
-	return testLoginApi(params).then(async ({ data }) => {
+	return apisAuth.postSignInByUsername(params).then(({ data }) => {
+		// return testLoginApi(params).then(async ({ data }) => {
 		utilsStorage.local.accessToken.set(data.accessToken);
 		utilsStorage.local.refreshToken.set(data.refreshToken);
 		utilsStorage.local.user.set(data.user);
@@ -208,9 +208,8 @@ export const loginOut = async () => {
 
 /** 获取用户信息 */
 export const getUserInfo = async () => {
-	const { data } = await testGetUserApi();
-	utilsStorage.local.user.set(data.user);
-	return { type: ActionTypeEnums.SET_USERINFO, payload: data.user };
+	const { data } = await apisAuth.getUserInfo();
+	return { type: ActionTypeEnums.SET_USERINFO, payload: data };
 };
 
 /** 获取权限 */
