@@ -53,7 +53,9 @@ const LoginForm = (props: ILoginFormProps) => {
 	return <XphForm register={register} ref={reactFormRef} {...formProps}></XphForm>;
 };
 
-// 使用 connect()() 创建并暴露容器组件
+/**
+ * 使用 connect()() 创建并暴露容器组件（connect函数会自动将action creators绑定到dispatch上，因此你可以直接在组件中调用这些action creators，而不需要显式地使用dispatch。）
+ */
 export default connect(
 	(state: IStoreState) => ({
 		user: state.user
