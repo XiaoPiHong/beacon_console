@@ -86,8 +86,8 @@ export const getEmailLoginFormProps = ({ loading, countDown, onClickLoginBtn, on
 					return (
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" }}>
 							<Input placeholder="邮箱验证码" />
-							<Button disabled={countDown < 5} onClick={onClickGetCodeBtn} type="primary">
-								{countDown < 5 ? countDown : "获取验证码"}
+							<Button disabled={countDown < 60} onClick={onClickGetCodeBtn} type="primary">
+								{countDown < 60 ? countDown : "获取验证码"}
 							</Button>
 						</div>
 					);

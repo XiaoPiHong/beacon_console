@@ -20,36 +20,26 @@ interface ILoginFormProps {
 const LoginForm = (props: ILoginFormProps) => {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
-	const [countDown, setCountDown] = useState(5);
+	const [countDown, setCountDown] = useState(60);
 	const realCountDown = useRef(countDown);
 
 	const onClickGetCodeBtn = () => {
 		methods.validator(["email"]).then(({ email }) => {
-			// postSendMailForSignIn({ email }).then(res => {
-			// 	let timer: null | NodeJS.Timeout = null;
-			// 	timer = setInterval(() => {
-			// 		if (countDown <= 0) {
-			// 			clearInterval(timer!);
-			// 			timer = null;
-			// 			setCountDown(60);
-			// 		} else {
-			// 			setCountDown(countDown - 1);
-			// 		}
-			// 	}, 1000);
-			// });
-			let timer: null | NodeJS.Timeout = null;
-			timer = setInterval(() => {
-				console.log("定时器");
-				if (realCountDown.current <= 0) {
-					clearInterval(timer!);
-					timer = null;
-					realCountDown.current = 5;
-					setCountDown(5);
-				} else {
-					setCountDown(prevCountDown => prevCountDown - 1);
-					realCountDown.current = realCountDown.current - 1;
-				}
-			}, 1000);
+			postSendMailForSignIn({ email }).then(res => {
+				let timer: null | NodeJS.Timeout = null;
+				timer = setInterval(() => {
+					console.log("定时器");
+					if (realCountDown.current <= 0) {
+						clearInterval(timer!);
+						timer = null;
+						realCountDown.current = 60;
+						setCountDown(60);
+					} else {
+						setCountDown(prevCountDown => prevCountDown - 1);
+						realCountDown.current = realCountDown.current - 1;
+					}
+				}, 1000);
+			});
 		});
 	};
 
