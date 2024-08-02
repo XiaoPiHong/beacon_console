@@ -97,6 +97,8 @@ function request(options: IRequestOptions) {
 							/** 成功 */
 							case 200:
 								return body;
+							case 400:
+								return Promise.reject(new Error(`code：${body.code}，message：${body.message}`));
 							default:
 								return Promise.reject(new Error(`客户端不知道如何处理 code: ${body.code}`));
 						}

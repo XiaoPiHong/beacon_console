@@ -154,18 +154,16 @@ const testGetUserApi = (): Promise<any> => {
 		setTimeout(() => {
 			resolve({
 				data: {
-					user: {
-						id: "6",
-						username: "xph-admin",
-						mobile: "18028592715",
-						email: "xph@qq.com",
-						enabled: true,
-						name: "超级管理员",
-						sex: "MALE",
-						birthday: "2020-02-02 00:00:00",
-						createdAt: "2024-07-27 17:27:24",
-						updatedAt: "2024-07-27 17:27:24"
-					}
+					id: "6",
+					username: "xph-admin",
+					mobile: "18028592715",
+					email: "xph@qq.com",
+					enabled: true,
+					name: "超级管理员",
+					sex: "MALE",
+					birthday: "2020-02-02 00:00:00",
+					createdAt: "2024-07-27 17:27:24",
+					updatedAt: "2024-07-27 17:27:24"
 				}
 			});
 		}, 300);
@@ -197,6 +195,16 @@ export const loginByUsername = (params?: any) => {
 	});
 };
 
+/** 邮箱登录 */
+export const loginByEmail = (params?: any) => {
+	return apisAuth.postSignInByEmail(params).then(({ data }) => {
+		utilsStorage.local.accessToken.set(data.accessToken);
+		utilsStorage.local.refreshToken.set(data.refreshToken);
+		utilsStorage.local.user.set(data.user);
+		return { type: ActionTypeEnums.LOGIN, payload: { userInfo: data.user, permission } };
+	});
+};
+
 /** 退出登录 */
 export const loginOut = async () => {
 	await testApi();
@@ -207,8 +215,8 @@ export const loginOut = async () => {
 };
 
 /** 获取用户信息 */
-export const getUserInfo = async () => {
-	const { data } = await apisAuth.getUserInfo();
+export const getProfile = async () => {
+	const { data } = await apisAuth.getProfile();
 	return { type: ActionTypeEnums.SET_USERINFO, payload: data };
 };
 

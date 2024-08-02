@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { getLoginFormProps } from "../indexConfig";
+import { getAccountLoginFormProps } from "../indexConfig";
 import { XphForm, useXphForm, IXphFormActionType } from "xph-crud";
 import cryptoJS from "crypto-js";
 import cryptoRandomString from "crypto-random-string";
@@ -46,7 +46,7 @@ const LoginForm = (props: ILoginFormProps) => {
 		});
 	};
 	const [register, methods] = useXphForm();
-	const formProps = getLoginFormProps({ methods, loading, onClickLoginBtn });
+	const formProps = getAccountLoginFormProps({ methods, loading, onClickLoginBtn });
 
 	const reactFormRef = useRef<IXphFormActionType>(null);
 

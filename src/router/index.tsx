@@ -6,7 +6,7 @@ import Login from "@/views/login";
 // import Register from "@/views/register";
 import { useSelector, shallowEqual } from "react-redux";
 import { IStoreState } from "@/store/types";
-import { getUserInfo, getPermission } from "@/store/actions/user";
+import { getProfile, getPermission } from "@/store/actions/user";
 import { useDispatch } from "react-redux";
 import Loading from "@/components/loading";
 import * as utilsStorage from "@/utils/storage";
@@ -49,7 +49,7 @@ export const RouteAppraisal = ({ children }: IRouteAppraisalProps) => {
 	const Module = lazy(async () => {
 		if (accessToken && !userInfo) {
 			console.log("触发了刷新");
-			await Promise.all([getUserInfo(), getPermission()])
+			await Promise.all([getProfile(), getPermission()])
 				.then(([_u, _p]) => {
 					dispatch(_u);
 					dispatch(_p);

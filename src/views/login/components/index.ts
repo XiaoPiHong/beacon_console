@@ -1,2 +1,2 @@
-export { default as SigninForm } from "./signin-form";
-export { default as SignupForm } from "./signup-form";
+export { default as AccountSigninForm } from "./account-signin-form";
+export { default as EmailSigninForm } from "./email-signin-form";

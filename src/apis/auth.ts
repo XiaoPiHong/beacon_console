@@ -14,7 +14,21 @@ export const postSignInByUsername = data =>
 		data
 	});
 
+/** 邮箱登录 */
+export const postSignInByEmail = data =>
+	http.post({
+		url: "/auth/sign-in-by-email",
+		data
+	});
+
+/** 获取登录邮箱验证码 */
+export const postSendMailForSignIn = data =>
+	http.post({
+		url: "/auth/send-mail-for-sign-in",
+		data
+	});
+
 /** 获取用户信息 */
-export const getUserInfo = () => {
+export const getProfile = () => {
 	return http.get({ url: "/auth/get-profile" });
 };

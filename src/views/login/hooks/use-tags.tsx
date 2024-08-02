@@ -1,5 +1,5 @@
 import { TabsProps } from "antd";
-import { SigninForm, SignupForm } from "../components";
+import { AccountSigninForm, EmailSigninForm } from "../components";
 
 /**
  * hook：tags
@@ -9,13 +9,13 @@ export default function () {
 	const tabsList: TabsProps["items"] = [
 		{
 			key: "1",
-			label: "登录",
-			children: <SigninForm />
+			label: "账号",
+			children: <AccountSigninForm />
 		},
 		{
 			key: "2",
-			label: "注册",
-			children: <SignupForm />
+			label: "邮箱",
+			children: <EmailSigninForm />
 		}
 	];
 
