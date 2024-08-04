@@ -25,7 +25,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 							table: {
 								table: {
 									responseFields: {
-										list: "data.list"
+										list: "data.list",
+										total: "data.total",
+										current: "data.current"
 									}
 								}
 							}
