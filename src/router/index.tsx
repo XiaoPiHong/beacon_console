@@ -87,17 +87,6 @@ export const getWhiteRoutes = (): Array<IRoute> => {
 		// 	path: "/register",
 		// 	element: <Register />
 		// },
-		// {
-		// 	path: "/user",
-		// 	element: <Layout />,
-		// 	children: [
-		// 		{
-		// 			path: "userManage",
-		// 			element: <RouteAppraisal>{lazyLoad("user/userManage")}</RouteAppraisal>,
-		// 			meta: { title: "用户管理", closable: true }
-		// 		}
-		// 	]
-		// }
 	];
 };
 

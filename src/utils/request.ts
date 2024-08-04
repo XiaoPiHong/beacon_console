@@ -14,7 +14,8 @@ export enum MethodEnum {
 	POST = "POST",
 	PUT = "PUT",
 	DELETE = "DELETE",
-	HEAD = "HEAD"
+	HEAD = "HEAD",
+	PATCH = "PATCH"
 }
 
 /**
@@ -99,6 +100,13 @@ function request(options: IRequestOptions) {
 								return body;
 							case 400:
 								return Promise.reject(new Error(`code：${body.code}，message：${body.message}`));
+							/** 未认证 */
+							case 401: {
+								utilsStorage.local.accessToken.remove();
+								utilsStorage.local.refreshToken.remove();
+								window.location.href = "/login";
+								return;
+							}
 							default:
 								return Promise.reject(new Error(`客户端不知道如何处理 code: ${body.code}`));
 						}
@@ -143,5 +151,6 @@ export default {
 	head: createRequest(MethodEnum.HEAD),
 	put: createRequest(MethodEnum.PUT),
 	post: createRequest(MethodEnum.POST),
-	delete: createRequest(MethodEnum.DELETE)
+	delete: createRequest(MethodEnum.DELETE),
+	patch: createRequest(MethodEnum.PATCH)
 };

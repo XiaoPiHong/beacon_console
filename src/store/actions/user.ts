@@ -1,7 +1,7 @@
 import { IActionFn } from "../types";
 import { ActionTypeEnums, TUserInfo, IPermission } from "../constant/user";
 import * as utilsStorage from "@/utils/storage";
-import * as apisAuth from "@/apis/auth";
+import * as apisAuth from "@/apis/auth/auth";
 
 const permission: IPermission[] = [
 	{
@@ -24,76 +24,76 @@ const permission: IPermission[] = [
 		parentPermissionId: "1",
 		closable: true
 	},
-	{
-		permissionId: "2",
-		permissionName: "系统",
-		permissionCode: "/system",
-		description: "string",
-		type: "ROUTE",
-		show: true,
-		parentPermissionId: null,
-		closable: true
-	},
-	{
-		permissionId: "2-1",
-		permissionName: "角色管理",
-		permissionCode: "/role/:id/:name",
-		description: "string",
-		type: "ROUTE",
-		show: false,
-		parentPermissionId: "2",
-		closable: true
-	},
-	{
-		permissionId: "2-2",
-		permissionName: "组织架构",
-		permissionCode: "/organizationalStructure",
-		description: "string",
-		type: "ROUTE",
-		show: true,
-		parentPermissionId: "2",
-		closable: true
-	},
-	{
-		permissionId: "2-2-1",
-		permissionName: "部门管理",
-		permissionCode: "/department",
-		description: "string",
-		type: "ROUTE",
-		show: true,
-		parentPermissionId: "2-2",
-		closable: true
-	},
-	{
-		permissionId: "2-2-1-1",
-		permissionName: "查看",
-		permissionCode: "view",
-		description: "string",
-		type: "BUTTON",
-		show: true,
-		parentPermissionId: "2-2-1",
-		closable: true
-	},
-	{
-		permissionId: "2-1-1",
-		permissionName: "查看",
-		permissionCode: "view",
-		description: "string",
-		type: "BUTTON",
-		show: true,
-		parentPermissionId: "2-1",
-		closable: true
-	},
-	{
-		permissionId: "2-1-2",
-		permissionName: "编辑",
-		permissionCode: "edit",
-		description: "string",
-		type: "BUTTON",
-		show: true,
-		parentPermissionId: "2-1",
-		closable: true
-	},
+	// {
+	// 	permissionId: "2",
+	// 	permissionName: "系统",
+	// 	permissionCode: "/system",
+	// 	description: "string",
+	// 	type: "ROUTE",
+	// 	show: true,
+	// 	parentPermissionId: null,
+	// 	closable: true
+	// },
+	// {
+	// 	permissionId: "2-1",
+	// 	permissionName: "角色管理",
+	// 	permissionCode: "/role/:id/:name",
+	// 	description: "string",
+	// 	type: "ROUTE",
+	// 	show: false,
+	// 	parentPermissionId: "2",
+	// 	closable: true
+	// },
+	// {
+	// 	permissionId: "2-2",
+	// 	permissionName: "组织架构",
+	// 	permissionCode: "/organizationalStructure",
+	// 	description: "string",
+	// 	type: "ROUTE",
+	// 	show: true,
+	// 	parentPermissionId: "2",
+	// 	closable: true
+	// },
+	// {
+	// 	permissionId: "2-2-1",
+	// 	permissionName: "部门管理",
+	// 	permissionCode: "/department",
+	// 	description: "string",
+	// 	type: "ROUTE",
+	// 	show: true,
+	// 	parentPermissionId: "2-2",
+	// 	closable: true
+	// },
+	// {
+	// 	permissionId: "2-2-1-1",
+	// 	permissionName: "查看",
+	// 	permissionCode: "view",
+	// 	description: "string",
+	// 	type: "BUTTON",
+	// 	show: true,
+	// 	parentPermissionId: "2-2-1",
+	// 	closable: true
+	// },
+	// {
+	// 	permissionId: "2-1-1",
+	// 	permissionName: "查看",
+	// 	permissionCode: "view",
+	// 	description: "string",
+	// 	type: "BUTTON",
+	// 	show: true,
+	// 	parentPermissionId: "2-1",
+	// 	closable: true
+	// },
+	// {
+	// 	permissionId: "2-1-2",
+	// 	permissionName: "编辑",
+	// 	permissionCode: "edit",
+	// 	description: "string",
+	// 	type: "BUTTON",
+	// 	show: true,
+	// 	parentPermissionId: "2-1",
+	// 	closable: true
+	// },
 	{
 		permissionId: "3",
 		permissionName: "用户",
@@ -107,11 +107,21 @@ const permission: IPermission[] = [
 	{
 		permissionId: "3-1",
 		permissionName: "用户管理",
-		permissionCode: "/userManage",
+		permissionCode: "/user",
 		description: "string",
 		type: "ROUTE",
 		show: true,
 		parentPermissionId: "3",
+		closable: true
+	},
+	{
+		permissionId: "3-1-1",
+		permissionName: "查看",
+		permissionCode: "view",
+		description: "string",
+		type: "BUTTON",
+		show: true,
+		parentPermissionId: "3-1",
 		closable: true
 	}
 ];
@@ -190,7 +200,6 @@ export const loginByUsername = (params?: any) => {
 		// return testLoginApi(params).then(async ({ data }) => {
 		utilsStorage.local.accessToken.set(data.accessToken);
 		utilsStorage.local.refreshToken.set(data.refreshToken);
-		utilsStorage.local.user.set(data.user);
 		return { type: ActionTypeEnums.LOGIN, payload: { userInfo: data.user, permission } };
 	});
 };
@@ -200,7 +209,6 @@ export const loginByEmail = (params?: any) => {
 	return apisAuth.postSignInByEmail(params).then(({ data }) => {
 		utilsStorage.local.accessToken.set(data.accessToken);
 		utilsStorage.local.refreshToken.set(data.refreshToken);
-		utilsStorage.local.user.set(data.user);
 		return { type: ActionTypeEnums.LOGIN, payload: { userInfo: data.user, permission } };
 	});
 };
@@ -210,7 +218,6 @@ export const loginOut = async () => {
 	await testApi();
 	utilsStorage.local.accessToken.remove();
 	utilsStorage.local.refreshToken.remove();
-	utilsStorage.local.user.remove();
 	return { type: ActionTypeEnums.SET_USERINFO, payload: null };
 };
 

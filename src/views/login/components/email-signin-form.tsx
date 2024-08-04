@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getEmailLoginFormProps } from "../indexConfig";
 import { XphForm, useXphForm, IXphFormActionType } from "xph-crud";
-import { postSendMailForSignIn } from "@/apis/auth";
+import { postSendMailForSignIn } from "@/apis/auth/auth";
 
 /** store exports */
 import { connect } from "react-redux";

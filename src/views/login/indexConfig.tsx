@@ -10,6 +10,7 @@ export const getAccountLoginFormProps = ({ methods, loading, onClickLoginBtn }):
 				label: "",
 				component: "Input",
 				required: true,
+				initialValue: "xph-admin",
 				componentProps: {
 					prefix: <UserOutlined />,
 					placeholder: "用户名"
@@ -20,6 +21,7 @@ export const getAccountLoginFormProps = ({ methods, loading, onClickLoginBtn }):
 				label: "",
 				component: "InputPassword",
 				required: true,
+				initialValue: "Admin@1234",
 				componentProps: {
 					prefix: <LockOutlined />,
 					placeholder: "密码"

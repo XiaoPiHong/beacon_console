@@ -73,8 +73,8 @@ const createSessionStorage = createStore(sessionStorage);
  */
 export const local = {
 	accessToken: createLocalStorage("accessToken"),
-	refreshToken: createLocalStorage("refreshToken"),
-	user: createLocalStorage("user", FilterTypeEnum.JSON)
+	refreshToken: createLocalStorage("refreshToken")
+	// user: createLocalStorage("user", FilterTypeEnum.JSON)
 };
 
 /**

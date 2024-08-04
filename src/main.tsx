@@ -21,6 +21,13 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 							/** 弹窗默认都放在.cache-component中 */
 							dialog: {
 								getPopperContainer: () => document.getElementsByClassName("cache-component")[0] as HTMLElement
+							},
+							table: {
+								table: {
+									responseFields: {
+										list: "data.list"
+									}
+								}
 							}
 						}
 					}}
