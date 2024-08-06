@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  # 客户端（后台）
+  sso-client-admin-v2:
+    container_name: sso-client-admin-v2
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "10004:80"
+    networks:
+      net-sso:
+        ipv4_address: 172.21.0.2
+
+networks:
+  net-sso:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.21.0.0/16"
