@@ -12,6 +12,8 @@ services:
     networks:
       net-sso:
         ipv4_address: 172.21.0.2
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
 
 networks:
   net-sso:

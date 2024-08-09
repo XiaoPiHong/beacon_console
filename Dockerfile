@@ -13,4 +13,3 @@ RUN pnpm run build:prod
 FROM nginx:latest
 
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
